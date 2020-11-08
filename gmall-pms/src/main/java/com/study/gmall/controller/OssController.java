@@ -4,11 +4,10 @@ import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
-import com.atguigu.core.bean.Resp;
+
+import com.study.core.bean.Resp;
 import com.study.core.reponse.CommonCode;
 import com.study.core.reponse.GeneralResponseResult;
-import com.study.core.reponse.ResponseResult;
-import com.study.core.reponse.ResultCode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +22,7 @@ import java.util.Map;
 public class OssController {
 
     @GetMapping("/policy")
-    public GeneralResponseResult policy(){
+    public Resp<Object> policy(){
 
         String accessId = "LTAI4GFQhQFn64KGBDYZ18Eg"; // 请填写您的AccessKeyId。
         String accessKey = "P4zD8kYDOYLES5MXER2ua1ZPbBUL2j"; // 请填写您的AccessKeySecret。
@@ -58,13 +57,15 @@ public class OssController {
             respMap.put("expire", String.valueOf(expireEndTime / 1000));
             // respMap.put("expire", formatISO8601Date(expiration));
 
-            return new GeneralResponseResult(CommonCode.SUCCESS,respMap);
+            //return new GeneralResponseResult(CommonCode.SUCCESS,respMap);
+            return Resp.ok(respMap);
         } catch (Exception e) {
             // Assert.fail(e.getMessage());
             System.out.println(e.getMessage());
         }
 
-        return new GeneralResponseResult(CommonCode.SUCCESS,null);
+        //return new GeneralResponseResult(CommonCode.SUCCESS,null);
+        return Resp.ok(null);
     }
 
 }

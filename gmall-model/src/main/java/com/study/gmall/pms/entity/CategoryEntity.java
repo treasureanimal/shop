@@ -25,8 +25,8 @@ public class CategoryEntity implements Serializable {
 	 * 分类id
 	 */
 	@TableId
-	@ApiModelProperty(name = "id",value = "分类id")
-	private Long id;
+	@ApiModelProperty(name = "catId",value = "分类id")
+	private Long catId;
 	/**
 	 * 分类名称
 	 */
@@ -35,13 +35,13 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 父分类id
 	 */
-	@ApiModelProperty(name = "parentId",value = "父分类id")
-	private Long parentId;
+	@ApiModelProperty(name = "parentCid",value = "父分类id")
+	private Long parentCid;
 	/**
 	 * 是否显示[0-不显示，1显示]
 	 */
-	@ApiModelProperty(name = "status",value = "是否显示[0-不显示，1显示]")
-	private Integer status;
+	@ApiModelProperty(name = "showStatus",value = "是否显示[0-不显示，1显示]")
+	private Integer showStatus;
 	/**
 	 * 排序
 	 */
@@ -55,7 +55,18 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 计量单位
 	 */
-	@ApiModelProperty(name = "unit",value = "计量单位")
-	private String unit;
+	@ApiModelProperty(name = "productUnit",value = "计量单位")
+	private String productUnit;
 
+	/**
+	 * 层级
+	 */
+	@ApiModelProperty(name = "catLevel",value = "层级")
+	private Integer catLevel;
+
+	/**
+	 * 商品数量
+	 */
+	@ApiModelProperty(name = "productCount",value = "商品数量")
+	private Integer productCount;
 }

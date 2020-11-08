@@ -1,8 +1,10 @@
 package com.study.gmall.controller;
 
 import java.util.Arrays;
+import java.util.List;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
@@ -26,9 +28,30 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("pms/category")
 public class CategoryController {
+
     @Autowired
     private CategoryService categoryService;
 
+
+    /**
+     *查询商品分类三级分类
+     * @param level 层级0是第一层
+     * @param parentCId 父类id
+     * @return 返回值
+     */
+    @GetMapping
+    public Resp<List<CategoryEntity>> querycategory(@RequestParam(value = "level",defaultValue = "0") Integer level,
+                                              @RequestParam(value = "parentCId",required = false)Long parentCId){
+        QueryWrapper<CategoryEntity> queryWrapper = new QueryWrapper<>();
+        if (level != 0) {
+            queryWrapper.eq("cat_level",level);
+        }
+        if (parentCId !=null) {
+            queryWrapper.eq("parent_cid",parentCId);
+        }
+        List<CategoryEntity> list = categoryService.list(queryWrapper);
+        return Resp.ok(list);
+    }
     /**
      * 列表
      */
