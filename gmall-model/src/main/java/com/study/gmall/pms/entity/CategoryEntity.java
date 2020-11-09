@@ -30,7 +30,7 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 分类名称
 	 */
-	@ApiModelProperty(name = "name",value = "分类名称")
+	@ApiModelProperty(name = "name",value = "分类名称。")
 	private String name;
 	/**
 	 * 父分类id
