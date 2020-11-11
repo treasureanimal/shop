@@ -1,6 +1,6 @@
 package com.study.gmall.dao;
 
-import com.study.gmall.sms.entity.SeckillSessionEntity;
+import com.study.gmall.sms.entity.CouponSpuCategoryRelationEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,6 +12,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2020-11-12 00:36:40
  */
 @Mapper
-public interface SeckillSessionDao extends BaseMapper<SeckillSessionEntity> {
+public interface CouponSpuCategoryRelationDao extends BaseMapper<CouponSpuCategoryRelationEntity> {
 	
 }

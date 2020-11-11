@@ -6,26 +6,26 @@ import java.util.Arrays;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
-import com.study.gmall.sms.entity.SeckillSkuNoticeEntity;
+import com.study.gmall.service.SeckillSkuNoticeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.study.gmall.service.SeckillSkuNoticeService;
+import com.study.gmall.sms.entity.SeckillSkuNoticeEntity;
 
 
 
 
 /**
- * 秒杀商品通知订阅
+ * 
  *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:32:32
+ * @date 2020-11-12 00:36:40
  */
-@Api(tags = "秒杀商品通知订阅 管理")
+@Api(tags = " 管理")
 @RestController
 @RequestMapping("sms/seckillskunotice")
 public class SeckillSkuNoticeController {

@@ -6,40 +6,40 @@ import java.util.Arrays;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
-import com.study.gmall.sms.entity.CouponSpuEntity;
+import com.study.gmall.service.SpuBoundsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.study.gmall.service.CouponSpuService;
+import com.study.gmall.sms.entity.SpuBoundsEntity;
 
 
 
 
 /**
- * 优惠券与产品关联
+ * 
  *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:32:31
+ * @date 2020-11-12 00:36:39
  */
-@Api(tags = "优惠券与产品关联 管理")
+@Api(tags = " 管理")
 @RestController
-@RequestMapping("sms/couponspu")
-public class CouponSpuController {
+@RequestMapping("sms/spubounds")
+public class SpuBoundsController {
     @Autowired
-    private CouponSpuService couponSpuService;
+    private SpuBoundsService spuBoundsService;
 
     /**
      * 列表
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority('sms:couponspu:list')")
+    @PreAuthorize("hasAuthority('sms:spubounds:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
-        PageVo page = couponSpuService.queryPage(queryCondition);
+        PageVo page = spuBoundsService.queryPage(queryCondition);
 
         return Resp.ok(page);
     }
@@ -50,11 +50,11 @@ public class CouponSpuController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority('sms:couponspu:info')")
-    public Resp<CouponSpuEntity> info(@PathVariable("id") Long id){
-		CouponSpuEntity couponSpu = couponSpuService.getById(id);
+    @PreAuthorize("hasAuthority('sms:spubounds:info')")
+    public Resp<SpuBoundsEntity> info(@PathVariable("id") Long id){
+		SpuBoundsEntity spuBounds = spuBoundsService.getById(id);
 
-        return Resp.ok(couponSpu);
+        return Resp.ok(spuBounds);
     }
 
     /**
@@ -62,9 +62,9 @@ public class CouponSpuController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('sms:couponspu:save')")
-    public Resp<Object> save(@RequestBody CouponSpuEntity couponSpu){
-		couponSpuService.save(couponSpu);
+    @PreAuthorize("hasAuthority('sms:spubounds:save')")
+    public Resp<Object> save(@RequestBody SpuBoundsEntity spuBounds){
+		spuBoundsService.save(spuBounds);
 
         return Resp.ok(null);
     }
@@ -74,9 +74,9 @@ public class CouponSpuController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('sms:couponspu:update')")
-    public Resp<Object> update(@RequestBody CouponSpuEntity couponSpu){
-		couponSpuService.updateById(couponSpu);
+    @PreAuthorize("hasAuthority('sms:spubounds:update')")
+    public Resp<Object> update(@RequestBody SpuBoundsEntity spuBounds){
+		spuBoundsService.updateById(spuBounds);
 
         return Resp.ok(null);
     }
@@ -86,9 +86,9 @@ public class CouponSpuController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority('sms:couponspu:delete')")
+    @PreAuthorize("hasAuthority('sms:spubounds:delete')")
     public Resp<Object> delete(@RequestBody Long[] ids){
-		couponSpuService.removeByIds(Arrays.asList(ids));
+		spuBoundsService.removeByIds(Arrays.asList(ids));
 
         return Resp.ok(null);
     }

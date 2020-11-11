@@ -10,6 +10,7 @@
         <result property="fullCount" column="full_count"/>
         <result property="discount" column="discount"/>
         <result property="addOther" column="add_other"/>
+        <result property="price" column="price"/>
     </resultMap>
 
 

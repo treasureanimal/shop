@@ -6,14 +6,14 @@ import java.util.Arrays;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
-import com.study.gmall.service.HomeSubjectSpuService;
+import com.study.gmall.service.SeckillSkuRelationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.study.gmall.sms.entity.HomeSubjectSpuEntity;
+import com.study.gmall.sms.entity.SeckillSkuRelationEntity;
 
 
 
@@ -23,23 +23,23 @@ import com.study.gmall.sms.entity.HomeSubjectSpuEntity;
  *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-12 00:36:39
+ * @date 2020-11-12 00:36:40
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("sms/homesubjectspu")
-public class HomeSubjectSpuController {
+@RequestMapping("sms/seckillskurelation")
+public class SeckillSkuRelationController {
     @Autowired
-    private HomeSubjectSpuService homeSubjectSpuService;
+    private SeckillSkuRelationService seckillSkuRelationService;
 
     /**
      * 列表
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority('sms:homesubjectspu:list')")
+    @PreAuthorize("hasAuthority('sms:seckillskurelation:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
-        PageVo page = homeSubjectSpuService.queryPage(queryCondition);
+        PageVo page = seckillSkuRelationService.queryPage(queryCondition);
 
         return Resp.ok(page);
     }
@@ -50,11 +50,11 @@ public class HomeSubjectSpuController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority('sms:homesubjectspu:info')")
-    public Resp<HomeSubjectSpuEntity> info(@PathVariable("id") Long id){
-		HomeSubjectSpuEntity homeSubjectSpu = homeSubjectSpuService.getById(id);
+    @PreAuthorize("hasAuthority('sms:seckillskurelation:info')")
+    public Resp<SeckillSkuRelationEntity> info(@PathVariable("id") Long id){
+		SeckillSkuRelationEntity seckillSkuRelation = seckillSkuRelationService.getById(id);
 
-        return Resp.ok(homeSubjectSpu);
+        return Resp.ok(seckillSkuRelation);
     }
 
     /**
@@ -62,9 +62,9 @@ public class HomeSubjectSpuController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('sms:homesubjectspu:save')")
-    public Resp<Object> save(@RequestBody HomeSubjectSpuEntity homeSubjectSpu){
-		homeSubjectSpuService.save(homeSubjectSpu);
+    @PreAuthorize("hasAuthority('sms:seckillskurelation:save')")
+    public Resp<Object> save(@RequestBody SeckillSkuRelationEntity seckillSkuRelation){
+		seckillSkuRelationService.save(seckillSkuRelation);
 
         return Resp.ok(null);
     }
@@ -74,9 +74,9 @@ public class HomeSubjectSpuController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('sms:homesubjectspu:update')")
-    public Resp<Object> update(@RequestBody HomeSubjectSpuEntity homeSubjectSpu){
-		homeSubjectSpuService.updateById(homeSubjectSpu);
+    @PreAuthorize("hasAuthority('sms:seckillskurelation:update')")
+    public Resp<Object> update(@RequestBody SeckillSkuRelationEntity seckillSkuRelation){
+		seckillSkuRelationService.updateById(seckillSkuRelation);
 
         return Resp.ok(null);
     }
@@ -86,9 +86,9 @@ public class HomeSubjectSpuController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority('sms:homesubjectspu:delete')")
+    @PreAuthorize("hasAuthority('sms:seckillskurelation:delete')")
     public Resp<Object> delete(@RequestBody Long[] ids){
-		homeSubjectSpuService.removeByIds(Arrays.asList(ids));
+		seckillSkuRelationService.removeByIds(Arrays.asList(ids));
 
         return Resp.ok(null);
     }

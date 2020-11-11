@@ -6,14 +6,14 @@ import java.util.Arrays;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
-import com.study.gmall.sms.entity.SkuLadderEntity;
+import com.study.gmall.service.SkuLadderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.study.gmall.service.SkuLadderService;
+import com.study.gmall.sms.entity.SkuLadderEntity;
 
 
 
@@ -23,7 +23,7 @@ import com.study.gmall.service.SkuLadderService;
  *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:32:31
+ * @date 2020-11-12 00:36:40
  */
 @Api(tags = "商品阶梯价格 管理")
 @RestController

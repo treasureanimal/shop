@@ -1,17 +1,17 @@
 package com.study.gmall.dao;
 
+import com.study.gmall.sms.entity.CategoryBoundsEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.study.gmall.sms.entity.SeckillSkuEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 秒杀活动商品关联
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:32:31
+ * @date 2020-11-12 00:36:39
  */
 @Mapper
-public interface SeckillSkuDao extends BaseMapper<SeckillSkuEntity> {
+public interface CategoryBoundsDao extends BaseMapper<CategoryBoundsEntity> {
 	
 }

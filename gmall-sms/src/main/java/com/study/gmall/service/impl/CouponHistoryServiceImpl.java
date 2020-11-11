@@ -1,6 +1,7 @@
 package com.study.gmall.service.impl;
 
-import com.study.gmall.sms.entity.CouponHistoryEntity;
+import com.study.gmall.dao.CouponHistoryDao;
+import com.study.gmall.service.CouponHistoryService;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -9,9 +10,7 @@ import com.study.core.bean.PageVo;
 import com.study.core.bean.Query;
 import com.study.core.bean.QueryCondition;
 
-import com.study.gmall.dao.CouponHistoryDao;
-import com.study.gmall.service.CouponHistoryService;
-
+import com.study.gmall.sms.entity.CouponHistoryEntity;
 
 @Service("couponHistoryService")
 public class CouponHistoryServiceImpl extends ServiceImpl<CouponHistoryDao, CouponHistoryEntity> implements CouponHistoryService {

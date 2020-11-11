@@ -4,17 +4,17 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
-import java.io.Serializable;
 import java.math.BigDecimal;
+import java.io.Serializable;
+import java.util.Date;
+import lombok.Data;
 
 /**
  * 商品阶梯价格
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:32:31
+ * @date 2020-11-12 00:36:40
  */
 @ApiModel
 @Data
@@ -48,5 +48,10 @@ public class SkuLadderEntity implements Serializable {
 	 */
 	@ApiModelProperty(name = "addOther",value = "是否叠加其他优惠[0-不可叠加，1-可叠加]")
 	private Integer addOther;
+	/**
+	 * 
+	 */
+	@ApiModelProperty(name = "price",value = "")
+	private BigDecimal price;
 
 }

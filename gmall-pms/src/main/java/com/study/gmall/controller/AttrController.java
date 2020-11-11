@@ -29,7 +29,7 @@ public class AttrController {
     /**
      * 列表
      */
-    @ApiOperation("分页查询(排序)")
+    @ApiOperation("分页查询 (排序)")
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('pms:attr:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {

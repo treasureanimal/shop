@@ -10,16 +10,16 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 商品spu积分设置
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-12 00:36:40
+ * @date 2020-11-12 00:36:39
  */
 @ApiModel
 @Data
-@TableName("sms_sku_bounds")
-public class SkuBoundsEntity implements Serializable {
+@TableName("sms_category_bounds")
+public class CategoryBoundsEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -31,8 +31,8 @@ public class SkuBoundsEntity implements Serializable {
 	/**
 	 * 
 	 */
-	@ApiModelProperty(name = "skuId",value = "")
-	private Long skuId;
+	@ApiModelProperty(name = "categoryId",value = "")
+	private Long categoryId;
 	/**
 	 * 成长积分
 	 */

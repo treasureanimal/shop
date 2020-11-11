@@ -1,17 +1,17 @@
 package com.study.gmall.dao;
 
+import com.study.gmall.sms.entity.CouponSpuRelationEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.study.gmall.sms.entity.CouponSpuEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 优惠券与产品关联
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:32:31
+ * @date 2020-11-12 00:36:40
  */
 @Mapper
-public interface CouponSpuDao extends BaseMapper<CouponSpuEntity> {
+public interface CouponSpuRelationDao extends BaseMapper<CouponSpuRelationEntity> {
 	
 }

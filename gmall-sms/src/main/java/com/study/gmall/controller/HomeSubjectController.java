@@ -6,26 +6,26 @@ import java.util.Arrays;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
-import com.study.gmall.sms.entity.HomeSubjectEntity;
+import com.study.gmall.service.HomeSubjectService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.study.gmall.service.HomeSubjectService;
+import com.study.gmall.sms.entity.HomeSubjectEntity;
 
 
 
 
 /**
- * 首页专题表【jd首页下面很多专题，每个专题链接新的页面，展示专题商品信息】
+ * 
  *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:32:31
+ * @date 2020-11-12 00:36:39
  */
-@Api(tags = "首页专题表【jd首页下面很多专题，每个专题链接新的页面，展示专题商品信息】 管理")
+@Api(tags = " 管理")
 @RestController
 @RequestMapping("sms/homesubject")
 public class HomeSubjectController {

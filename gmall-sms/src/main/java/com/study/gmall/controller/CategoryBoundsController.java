@@ -6,40 +6,40 @@ import java.util.Arrays;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
-import com.study.gmall.sms.entity.SeckillSkuEntity;
+import com.study.gmall.service.CategoryBoundsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.study.gmall.service.SeckillSkuService;
+import com.study.gmall.sms.entity.CategoryBoundsEntity;
 
 
 
 
 /**
- * 秒杀活动商品关联
+ * 
  *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:32:31
+ * @date 2020-11-12 00:36:39
  */
-@Api(tags = "秒杀活动商品关联 管理")
+@Api(tags = " 管理")
 @RestController
-@RequestMapping("sms/seckillsku")
-public class SeckillSkuController {
+@RequestMapping("sms/categorybounds")
+public class CategoryBoundsController {
     @Autowired
-    private SeckillSkuService seckillSkuService;
+    private CategoryBoundsService categoryBoundsService;
 
     /**
      * 列表
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority('sms:seckillsku:list')")
+    @PreAuthorize("hasAuthority('sms:categorybounds:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
-        PageVo page = seckillSkuService.queryPage(queryCondition);
+        PageVo page = categoryBoundsService.queryPage(queryCondition);
 
         return Resp.ok(page);
     }
@@ -50,11 +50,11 @@ public class SeckillSkuController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority('sms:seckillsku:info')")
-    public Resp<SeckillSkuEntity> info(@PathVariable("id") Long id){
-		SeckillSkuEntity seckillSku = seckillSkuService.getById(id);
+    @PreAuthorize("hasAuthority('sms:categorybounds:info')")
+    public Resp<CategoryBoundsEntity> info(@PathVariable("id") Long id){
+		CategoryBoundsEntity categoryBounds = categoryBoundsService.getById(id);
 
-        return Resp.ok(seckillSku);
+        return Resp.ok(categoryBounds);
     }
 
     /**
@@ -62,9 +62,9 @@ public class SeckillSkuController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('sms:seckillsku:save')")
-    public Resp<Object> save(@RequestBody SeckillSkuEntity seckillSku){
-		seckillSkuService.save(seckillSku);
+    @PreAuthorize("hasAuthority('sms:categorybounds:save')")
+    public Resp<Object> save(@RequestBody CategoryBoundsEntity categoryBounds){
+		categoryBoundsService.save(categoryBounds);
 
         return Resp.ok(null);
     }
@@ -74,9 +74,9 @@ public class SeckillSkuController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('sms:seckillsku:update')")
-    public Resp<Object> update(@RequestBody SeckillSkuEntity seckillSku){
-		seckillSkuService.updateById(seckillSku);
+    @PreAuthorize("hasAuthority('sms:categorybounds:update')")
+    public Resp<Object> update(@RequestBody CategoryBoundsEntity categoryBounds){
+		categoryBoundsService.updateById(categoryBounds);
 
         return Resp.ok(null);
     }
@@ -86,9 +86,9 @@ public class SeckillSkuController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority('sms:seckillsku:delete')")
+    @PreAuthorize("hasAuthority('sms:categorybounds:delete')")
     public Resp<Object> delete(@RequestBody Long[] ids){
-		seckillSkuService.removeByIds(Arrays.asList(ids));
+		categoryBoundsService.removeByIds(Arrays.asList(ids));
 
         return Resp.ok(null);
     }

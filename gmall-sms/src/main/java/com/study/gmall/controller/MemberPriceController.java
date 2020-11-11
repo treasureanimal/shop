@@ -6,26 +6,26 @@ import java.util.Arrays;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
-import com.study.gmall.sms.entity.MemberPriceEntity;
+import com.study.gmall.service.MemberPriceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.study.gmall.service.MemberPriceService;
+import com.study.gmall.sms.entity.MemberPriceEntity;
 
 
 
 
 /**
- * 商品会员价格
+ * 
  *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:32:31
+ * @date 2020-11-12 00:36:39
  */
-@Api(tags = "商品会员价格 管理")
+@Api(tags = " 管理")
 @RestController
 @RequestMapping("sms/memberprice")
 public class MemberPriceController {

@@ -4,21 +4,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
- * 优惠券与产品关联
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:32:31
+ * @date 2020-11-12 00:36:40
  */
 @ApiModel
 @Data
-@TableName("sms_coupon_spu")
-public class CouponSpuEntity implements Serializable {
+@TableName("sms_coupon_spu_category_relation")
+public class CouponSpuCategoryRelationEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -33,14 +33,14 @@ public class CouponSpuEntity implements Serializable {
 	@ApiModelProperty(name = "couponId",value = "优惠券id")
 	private Long couponId;
 	/**
-	 * spu_id
+	 * 产品分类id
 	 */
-	@ApiModelProperty(name = "spuId",value = "spu_id")
-	private Long spuId;
+	@ApiModelProperty(name = "categoryId",value = "产品分类id")
+	private Long categoryId;
 	/**
-	 * spu_name
+	 * 产品分类名称
 	 */
-	@ApiModelProperty(name = "spuName",value = "spu_name")
-	private String spuName;
+	@ApiModelProperty(name = "categoryName",value = "产品分类名称")
+	private String categoryName;
 
 }
