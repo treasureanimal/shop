@@ -17,11 +17,11 @@ import java.util.Arrays;
 /**
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-11 13:55:21
+ * @date 2020-11-11 20:43:49
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/spuimages")
+@RequestMapping("pms/spuimages")
 public class SpuImagesController {
     @Autowired
     private SpuImagesService spuImagesService;
@@ -31,7 +31,7 @@ public class SpuImagesController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':spuimages:list')")
+    @PreAuthorize("hasAuthority('pms:spuimages:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = spuImagesService.queryPage(queryCondition);
 
@@ -44,7 +44,7 @@ public class SpuImagesController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority(':spuimages:info')")
+    @PreAuthorize("hasAuthority('pms:spuimages:info')")
     public Resp<SpuImagesEntity> info(@PathVariable("id") Long id) {
         SpuImagesEntity spuImages = spuImagesService.getById(id);
 
@@ -56,7 +56,7 @@ public class SpuImagesController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':spuimages:save')")
+    @PreAuthorize("hasAuthority('pms:spuimages:save')")
     public Resp<Object> save(@RequestBody SpuImagesEntity spuImages) {
         spuImagesService.save(spuImages);
 
@@ -68,7 +68,7 @@ public class SpuImagesController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':spuimages:update')")
+    @PreAuthorize("hasAuthority('pms:spuimages:update')")
     public Resp<Object> update(@RequestBody SpuImagesEntity spuImages) {
         spuImagesService.updateById(spuImages);
 
@@ -80,7 +80,7 @@ public class SpuImagesController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':spuimages:delete')")
+    @PreAuthorize("hasAuthority('pms:spuimages:delete')")
     public Resp<Object> delete(@RequestBody Long[] ids) {
         spuImagesService.removeByIds(Arrays.asList(ids));
 

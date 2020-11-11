@@ -17,11 +17,11 @@ import java.util.Arrays;
 /**
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-11 13:55:21
+ * @date 2020-11-11 20:43:49
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/skuinfo")
+@RequestMapping("pms/skuinfo")
 public class SkuInfoController {
     @Autowired
     private SkuInfoService skuInfoService;
@@ -31,7 +31,7 @@ public class SkuInfoController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':skuinfo:list')")
+    @PreAuthorize("hasAuthority('pms:skuinfo:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = skuInfoService.queryPage(queryCondition);
 
@@ -44,7 +44,7 @@ public class SkuInfoController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{skuId}")
-    @PreAuthorize("hasAuthority(':skuinfo:info')")
+    @PreAuthorize("hasAuthority('pms:skuinfo:info')")
     public Resp<SkuInfoEntity> info(@PathVariable("skuId") Long skuId) {
         SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
 
@@ -56,7 +56,7 @@ public class SkuInfoController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':skuinfo:save')")
+    @PreAuthorize("hasAuthority('pms:skuinfo:save')")
     public Resp<Object> save(@RequestBody SkuInfoEntity skuInfo) {
         skuInfoService.save(skuInfo);
 
@@ -68,7 +68,7 @@ public class SkuInfoController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':skuinfo:update')")
+    @PreAuthorize("hasAuthority('pms:skuinfo:update')")
     public Resp<Object> update(@RequestBody SkuInfoEntity skuInfo) {
         skuInfoService.updateById(skuInfo);
 
@@ -80,7 +80,7 @@ public class SkuInfoController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':skuinfo:delete')")
+    @PreAuthorize("hasAuthority('pms:skuinfo:delete')")
     public Resp<Object> delete(@RequestBody Long[] skuIds) {
         skuInfoService.removeByIds(Arrays.asList(skuIds));
 

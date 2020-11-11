@@ -17,11 +17,11 @@ import java.util.Arrays;
 /**
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-11 13:55:21
+ * @date 2020-11-11 20:43:49
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/skuimages")
+@RequestMapping("pms/skuimages")
 public class SkuImagesController {
     @Autowired
     private SkuImagesService skuImagesService;
@@ -31,7 +31,7 @@ public class SkuImagesController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':skuimages:list')")
+    @PreAuthorize("hasAuthority('pms:skuimages:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = skuImagesService.queryPage(queryCondition);
 
@@ -44,7 +44,7 @@ public class SkuImagesController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority(':skuimages:info')")
+    @PreAuthorize("hasAuthority('pms:skuimages:info')")
     public Resp<SkuImagesEntity> info(@PathVariable("id") Long id) {
         SkuImagesEntity skuImages = skuImagesService.getById(id);
 
@@ -56,7 +56,7 @@ public class SkuImagesController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':skuimages:save')")
+    @PreAuthorize("hasAuthority('pms:skuimages:save')")
     public Resp<Object> save(@RequestBody SkuImagesEntity skuImages) {
         skuImagesService.save(skuImages);
 
@@ -68,7 +68,7 @@ public class SkuImagesController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':skuimages:update')")
+    @PreAuthorize("hasAuthority('pms:skuimages:update')")
     public Resp<Object> update(@RequestBody SkuImagesEntity skuImages) {
         skuImagesService.updateById(skuImages);
 
@@ -80,7 +80,7 @@ public class SkuImagesController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':skuimages:delete')")
+    @PreAuthorize("hasAuthority('pms:skuimages:delete')")
     public Resp<Object> delete(@RequestBody Long[] ids) {
         skuImagesService.removeByIds(Arrays.asList(ids));
 

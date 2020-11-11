@@ -17,11 +17,11 @@ import java.util.Arrays;
 /**
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-11 13:55:21
+ * @date 2020-11-11 20:43:49
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/brand")
+@RequestMapping("pms/brand")
 public class BrandController {
     @Autowired
     private BrandService brandService;
@@ -31,7 +31,7 @@ public class BrandController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':brand:list')")
+    @PreAuthorize("hasAuthority('pms:brand:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = brandService.queryPage(queryCondition);
 
@@ -44,7 +44,7 @@ public class BrandController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{brandId}")
-    @PreAuthorize("hasAuthority(':brand:info')")
+    @PreAuthorize("hasAuthority('pms:brand:info')")
     public Resp<BrandEntity> info(@PathVariable("brandId") Long brandId) {
         BrandEntity brand = brandService.getById(brandId);
 
@@ -56,7 +56,7 @@ public class BrandController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':brand:save')")
+    @PreAuthorize("hasAuthority('pms:brand:save')")
     public Resp<Object> save(@RequestBody BrandEntity brand) {
         brandService.save(brand);
 
@@ -68,7 +68,7 @@ public class BrandController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':brand:update')")
+    @PreAuthorize("hasAuthority('pms:brand:update')")
     public Resp<Object> update(@RequestBody BrandEntity brand) {
         brandService.updateById(brand);
 
@@ -80,7 +80,7 @@ public class BrandController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':brand:delete')")
+    @PreAuthorize("hasAuthority('pms:brand:delete')")
     public Resp<Object> delete(@RequestBody Long[] brandIds) {
         brandService.removeByIds(Arrays.asList(brandIds));
 

@@ -17,11 +17,11 @@ import java.util.Arrays;
 /**
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-11 13:55:21
+ * @date 2020-11-11 20:43:49
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/attr")
+@RequestMapping("pms/attr")
 public class AttrController {
     @Autowired
     private AttrService attrService;
@@ -31,7 +31,7 @@ public class AttrController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':attr:list')")
+    @PreAuthorize("hasAuthority('pms:attr:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = attrService.queryPage(queryCondition);
 
@@ -44,7 +44,7 @@ public class AttrController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{attrId}")
-    @PreAuthorize("hasAuthority(':attr:info')")
+    @PreAuthorize("hasAuthority('pms:attr:info')")
     public Resp<AttrEntity> info(@PathVariable("attrId") Long attrId) {
         AttrEntity attr = attrService.getById(attrId);
 
@@ -56,7 +56,7 @@ public class AttrController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':attr:save')")
+    @PreAuthorize("hasAuthority('pms:attr:save')")
     public Resp<Object> save(@RequestBody AttrEntity attr) {
         attrService.save(attr);
 
@@ -68,7 +68,7 @@ public class AttrController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':attr:update')")
+    @PreAuthorize("hasAuthority('pms:attr:update')")
     public Resp<Object> update(@RequestBody AttrEntity attr) {
         attrService.updateById(attr);
 
@@ -80,7 +80,7 @@ public class AttrController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':attr:delete')")
+    @PreAuthorize("hasAuthority('pms:attr:delete')")
     public Resp<Object> delete(@RequestBody Long[] attrIds) {
         attrService.removeByIds(Arrays.asList(attrIds));
 

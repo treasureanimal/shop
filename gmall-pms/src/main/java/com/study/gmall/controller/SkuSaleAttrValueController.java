@@ -17,11 +17,11 @@ import java.util.Arrays;
 /**
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-11 13:55:21
+ * @date 2020-11-11 20:43:49
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/skusaleattrvalue")
+@RequestMapping("pms/skusaleattrvalue")
 public class SkuSaleAttrValueController {
     @Autowired
     private SkuSaleAttrValueService skuSaleAttrValueService;
@@ -31,7 +31,7 @@ public class SkuSaleAttrValueController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':skusaleattrvalue:list')")
+    @PreAuthorize("hasAuthority('pms:skusaleattrvalue:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = skuSaleAttrValueService.queryPage(queryCondition);
 
@@ -44,7 +44,7 @@ public class SkuSaleAttrValueController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority(':skusaleattrvalue:info')")
+    @PreAuthorize("hasAuthority('pms:skusaleattrvalue:info')")
     public Resp<SkuSaleAttrValueEntity> info(@PathVariable("id") Long id) {
         SkuSaleAttrValueEntity skuSaleAttrValue = skuSaleAttrValueService.getById(id);
 
@@ -56,7 +56,7 @@ public class SkuSaleAttrValueController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':skusaleattrvalue:save')")
+    @PreAuthorize("hasAuthority('pms:skusaleattrvalue:save')")
     public Resp<Object> save(@RequestBody SkuSaleAttrValueEntity skuSaleAttrValue) {
         skuSaleAttrValueService.save(skuSaleAttrValue);
 
@@ -68,7 +68,7 @@ public class SkuSaleAttrValueController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':skusaleattrvalue:update')")
+    @PreAuthorize("hasAuthority('pms:skusaleattrvalue:update')")
     public Resp<Object> update(@RequestBody SkuSaleAttrValueEntity skuSaleAttrValue) {
         skuSaleAttrValueService.updateById(skuSaleAttrValue);
 
@@ -80,7 +80,7 @@ public class SkuSaleAttrValueController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':skusaleattrvalue:delete')")
+    @PreAuthorize("hasAuthority('pms:skusaleattrvalue:delete')")
     public Resp<Object> delete(@RequestBody Long[] ids) {
         skuSaleAttrValueService.removeByIds(Arrays.asList(ids));
 

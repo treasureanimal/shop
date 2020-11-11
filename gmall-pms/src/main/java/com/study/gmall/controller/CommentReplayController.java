@@ -17,11 +17,11 @@ import java.util.Arrays;
 /**
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-11 13:55:21
+ * @date 2020-11-11 20:43:49
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/commentreplay")
+@RequestMapping("pms/commentreplay")
 public class CommentReplayController {
     @Autowired
     private CommentReplayService commentReplayService;
@@ -31,7 +31,7 @@ public class CommentReplayController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':commentreplay:list')")
+    @PreAuthorize("hasAuthority('pms:commentreplay:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = commentReplayService.queryPage(queryCondition);
 
@@ -44,7 +44,7 @@ public class CommentReplayController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority(':commentreplay:info')")
+    @PreAuthorize("hasAuthority('pms:commentreplay:info')")
     public Resp<CommentReplayEntity> info(@PathVariable("id") Long id) {
         CommentReplayEntity commentReplay = commentReplayService.getById(id);
 
@@ -56,7 +56,7 @@ public class CommentReplayController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':commentreplay:save')")
+    @PreAuthorize("hasAuthority('pms:commentreplay:save')")
     public Resp<Object> save(@RequestBody CommentReplayEntity commentReplay) {
         commentReplayService.save(commentReplay);
 
@@ -68,7 +68,7 @@ public class CommentReplayController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':commentreplay:update')")
+    @PreAuthorize("hasAuthority('pms:commentreplay:update')")
     public Resp<Object> update(@RequestBody CommentReplayEntity commentReplay) {
         commentReplayService.updateById(commentReplay);
 
@@ -80,7 +80,7 @@ public class CommentReplayController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':commentreplay:delete')")
+    @PreAuthorize("hasAuthority('pms:commentreplay:delete')")
     public Resp<Object> delete(@RequestBody Long[] ids) {
         commentReplayService.removeByIds(Arrays.asList(ids));
 

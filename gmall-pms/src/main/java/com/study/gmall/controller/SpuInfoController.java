@@ -17,11 +17,11 @@ import java.util.Arrays;
 /**
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-11 13:55:21
+ * @date 2020-11-11 20:43:49
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/spuinfo")
+@RequestMapping("pms/spuinfo")
 public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
@@ -31,7 +31,7 @@ public class SpuInfoController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':spuinfo:list')")
+    @PreAuthorize("hasAuthority('pms:spuinfo:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = spuInfoService.queryPage(queryCondition);
 
@@ -44,7 +44,7 @@ public class SpuInfoController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority(':spuinfo:info')")
+    @PreAuthorize("hasAuthority('pms:spuinfo:info')")
     public Resp<SpuInfoEntity> info(@PathVariable("id") Long id) {
         SpuInfoEntity spuInfo = spuInfoService.getById(id);
 
@@ -56,7 +56,7 @@ public class SpuInfoController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':spuinfo:save')")
+    @PreAuthorize("hasAuthority('pms:spuinfo:save')")
     public Resp<Object> save(@RequestBody SpuInfoEntity spuInfo) {
         spuInfoService.save(spuInfo);
 
@@ -68,7 +68,7 @@ public class SpuInfoController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':spuinfo:update')")
+    @PreAuthorize("hasAuthority('pms:spuinfo:update')")
     public Resp<Object> update(@RequestBody SpuInfoEntity spuInfo) {
         spuInfoService.updateById(spuInfo);
 
@@ -80,7 +80,7 @@ public class SpuInfoController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':spuinfo:delete')")
+    @PreAuthorize("hasAuthority('pms:spuinfo:delete')")
     public Resp<Object> delete(@RequestBody Long[] ids) {
         spuInfoService.removeByIds(Arrays.asList(ids));
 

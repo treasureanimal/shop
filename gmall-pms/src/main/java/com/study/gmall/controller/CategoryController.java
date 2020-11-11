@@ -17,11 +17,11 @@ import java.util.Arrays;
 /**
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-11 13:55:21
+ * @date 2020-11-11 20:43:49
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/category")
+@RequestMapping("pms/category")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
@@ -31,7 +31,7 @@ public class CategoryController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':category:list')")
+    @PreAuthorize("hasAuthority('pms:category:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = categoryService.queryPage(queryCondition);
 
@@ -44,7 +44,7 @@ public class CategoryController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{catId}")
-    @PreAuthorize("hasAuthority(':category:info')")
+    @PreAuthorize("hasAuthority('pms:category:info')")
     public Resp<CategoryEntity> info(@PathVariable("catId") Long catId) {
         CategoryEntity category = categoryService.getById(catId);
 
@@ -56,7 +56,7 @@ public class CategoryController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':category:save')")
+    @PreAuthorize("hasAuthority('pms:category:save')")
     public Resp<Object> save(@RequestBody CategoryEntity category) {
         categoryService.save(category);
 
@@ -68,7 +68,7 @@ public class CategoryController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':category:update')")
+    @PreAuthorize("hasAuthority('pms:category:update')")
     public Resp<Object> update(@RequestBody CategoryEntity category) {
         categoryService.updateById(category);
 
@@ -80,7 +80,7 @@ public class CategoryController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':category:delete')")
+    @PreAuthorize("hasAuthority('pms:category:delete')")
     public Resp<Object> delete(@RequestBody Long[] catIds) {
         categoryService.removeByIds(Arrays.asList(catIds));
 

@@ -17,11 +17,11 @@ import java.util.Arrays;
 /**
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-11 13:55:21
+ * @date 2020-11-11 20:43:49
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/spuinfodesc")
+@RequestMapping("pms/spuinfodesc")
 public class SpuInfoDescController {
     @Autowired
     private SpuInfoDescService spuInfoDescService;
@@ -31,7 +31,7 @@ public class SpuInfoDescController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':spuinfodesc:list')")
+    @PreAuthorize("hasAuthority('pms:spuinfodesc:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = spuInfoDescService.queryPage(queryCondition);
 
@@ -44,7 +44,7 @@ public class SpuInfoDescController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{spuId}")
-    @PreAuthorize("hasAuthority(':spuinfodesc:info')")
+    @PreAuthorize("hasAuthority('pms:spuinfodesc:info')")
     public Resp<SpuInfoDescEntity> info(@PathVariable("spuId") Long spuId) {
         SpuInfoDescEntity spuInfoDesc = spuInfoDescService.getById(spuId);
 
@@ -56,7 +56,7 @@ public class SpuInfoDescController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':spuinfodesc:save')")
+    @PreAuthorize("hasAuthority('pms:spuinfodesc:save')")
     public Resp<Object> save(@RequestBody SpuInfoDescEntity spuInfoDesc) {
         spuInfoDescService.save(spuInfoDesc);
 
@@ -68,7 +68,7 @@ public class SpuInfoDescController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':spuinfodesc:update')")
+    @PreAuthorize("hasAuthority('pms:spuinfodesc:update')")
     public Resp<Object> update(@RequestBody SpuInfoDescEntity spuInfoDesc) {
         spuInfoDescService.updateById(spuInfoDesc);
 
@@ -80,7 +80,7 @@ public class SpuInfoDescController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':spuinfodesc:delete')")
+    @PreAuthorize("hasAuthority('pms:spuinfodesc:delete')")
     public Resp<Object> delete(@RequestBody Long[] spuIds) {
         spuInfoDescService.removeByIds(Arrays.asList(spuIds));
 

@@ -1,6 +1,6 @@
 package com.study.gmall.dao;
 
-import com.study.gmall.pms.entity.BrandEntity;
+import com.study.gmall.pms.entity.AttrAttrgroupRelationEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,6 +12,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2020-11-11 20:43:49
  */
 @Mapper
-public interface BrandDao extends BaseMapper<BrandEntity> {
+public interface AttrAttrgroupRelationDao extends BaseMapper<AttrAttrgroupRelationEntity> {
 	
 }

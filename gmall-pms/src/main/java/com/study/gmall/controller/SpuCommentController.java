@@ -17,11 +17,11 @@ import java.util.Arrays;
 /**
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-11 13:55:21
+ * @date 2020-11-11 20:43:49
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/spucomment")
+@RequestMapping("pms/spucomment")
 public class SpuCommentController {
     @Autowired
     private SpuCommentService spuCommentService;
@@ -31,7 +31,7 @@ public class SpuCommentController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':spucomment:list')")
+    @PreAuthorize("hasAuthority('pms:spucomment:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = spuCommentService.queryPage(queryCondition);
 
@@ -44,7 +44,7 @@ public class SpuCommentController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority(':spucomment:info')")
+    @PreAuthorize("hasAuthority('pms:spucomment:info')")
     public Resp<SpuCommentEntity> info(@PathVariable("id") Long id) {
         SpuCommentEntity spuComment = spuCommentService.getById(id);
 
@@ -56,7 +56,7 @@ public class SpuCommentController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':spucomment:save')")
+    @PreAuthorize("hasAuthority('pms:spucomment:save')")
     public Resp<Object> save(@RequestBody SpuCommentEntity spuComment) {
         spuCommentService.save(spuComment);
 
@@ -68,7 +68,7 @@ public class SpuCommentController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':spucomment:update')")
+    @PreAuthorize("hasAuthority('pms:spucomment:update')")
     public Resp<Object> update(@RequestBody SpuCommentEntity spuComment) {
         spuCommentService.updateById(spuComment);
 
@@ -80,7 +80,7 @@ public class SpuCommentController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':spucomment:delete')")
+    @PreAuthorize("hasAuthority('pms:spucomment:delete')")
     public Resp<Object> delete(@RequestBody Long[] ids) {
         spuCommentService.removeByIds(Arrays.asList(ids));
 

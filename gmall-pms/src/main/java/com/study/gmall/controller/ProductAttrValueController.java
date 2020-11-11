@@ -17,11 +17,11 @@ import java.util.Arrays;
 /**
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-11-11 13:55:21
+ * @date 2020-11-11 20:43:49
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/productattrvalue")
+@RequestMapping("pms/productattrvalue")
 public class ProductAttrValueController {
     @Autowired
     private ProductAttrValueService productAttrValueService;
@@ -31,7 +31,7 @@ public class ProductAttrValueController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':productattrvalue:list')")
+    @PreAuthorize("hasAuthority('pms:productattrvalue:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = productAttrValueService.queryPage(queryCondition);
 
@@ -44,7 +44,7 @@ public class ProductAttrValueController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority(':productattrvalue:info')")
+    @PreAuthorize("hasAuthority('pms:productattrvalue:info')")
     public Resp<ProductAttrValueEntity> info(@PathVariable("id") Long id) {
         ProductAttrValueEntity productAttrValue = productAttrValueService.getById(id);
 
@@ -56,7 +56,7 @@ public class ProductAttrValueController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':productattrvalue:save')")
+    @PreAuthorize("hasAuthority('pms:productattrvalue:save')")
     public Resp<Object> save(@RequestBody ProductAttrValueEntity productAttrValue) {
         productAttrValueService.save(productAttrValue);
 
@@ -68,7 +68,7 @@ public class ProductAttrValueController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':productattrvalue:update')")
+    @PreAuthorize("hasAuthority('pms:productattrvalue:update')")
     public Resp<Object> update(@RequestBody ProductAttrValueEntity productAttrValue) {
         productAttrValueService.updateById(productAttrValue);
 
@@ -80,7 +80,7 @@ public class ProductAttrValueController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':productattrvalue:delete')")
+    @PreAuthorize("hasAuthority('pms:productattrvalue:delete')")
     public Resp<Object> delete(@RequestBody Long[] ids) {
         productAttrValueService.removeByIds(Arrays.asList(ids));
 

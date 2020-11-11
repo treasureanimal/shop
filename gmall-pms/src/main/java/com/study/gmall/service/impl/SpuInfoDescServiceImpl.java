@@ -11,6 +11,7 @@ import com.study.gmall.pms.entity.SpuInfoDescEntity;
 import com.study.gmall.service.SpuInfoDescService;
 import org.springframework.stereotype.Service;
 
+
 @Service("spuInfoDescService")
 public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescDao, SpuInfoDescEntity> implements SpuInfoDescService {
 
