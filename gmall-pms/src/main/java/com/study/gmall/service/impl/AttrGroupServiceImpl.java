@@ -12,6 +12,7 @@ import com.study.core.bean.Query;
 import com.study.core.bean.QueryCondition;
 
 
+
 @Service("attrGroupService")
 public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEntity> implements AttrGroupService {
 

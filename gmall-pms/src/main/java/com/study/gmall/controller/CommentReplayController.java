@@ -1,33 +1,27 @@
 package com.study.gmall.controller;
 
-import java.util.Arrays;
-
-
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
 import com.study.gmall.pms.entity.CommentReplayEntity;
+import com.study.gmall.service.CommentReplayService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.study.gmall.service.CommentReplayService;
-
-
+import java.util.Arrays;
 
 
 /**
- * 商品评价回复关系
- *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-18 00:31:59
+ * @date 2020-11-11 13:55:21
  */
-@Api(tags = "商品评价回复关系 管理")
+@Api(tags = " 管理")
 @RestController
-@RequestMapping("pms/commentreplay")
+@RequestMapping("/commentreplay")
 public class CommentReplayController {
     @Autowired
     private CommentReplayService commentReplayService;
@@ -37,7 +31,7 @@ public class CommentReplayController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority('pms:commentreplay:list')")
+    @PreAuthorize("hasAuthority(':commentreplay:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = commentReplayService.queryPage(queryCondition);
 
@@ -50,9 +44,9 @@ public class CommentReplayController {
      */
     @ApiOperation("详情查询")
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority('pms:commentreplay:info')")
-    public Resp<CommentReplayEntity> info(@PathVariable("id") Long id){
-		CommentReplayEntity commentReplay = commentReplayService.getById(id);
+    @PreAuthorize("hasAuthority(':commentreplay:info')")
+    public Resp<CommentReplayEntity> info(@PathVariable("id") Long id) {
+        CommentReplayEntity commentReplay = commentReplayService.getById(id);
 
         return Resp.ok(commentReplay);
     }
@@ -62,9 +56,9 @@ public class CommentReplayController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('pms:commentreplay:save')")
-    public Resp<Object> save(@RequestBody CommentReplayEntity commentReplay){
-		commentReplayService.save(commentReplay);
+    @PreAuthorize("hasAuthority(':commentreplay:save')")
+    public Resp<Object> save(@RequestBody CommentReplayEntity commentReplay) {
+        commentReplayService.save(commentReplay);
 
         return Resp.ok(null);
     }
@@ -74,9 +68,9 @@ public class CommentReplayController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('pms:commentreplay:update')")
-    public Resp<Object> update(@RequestBody CommentReplayEntity commentReplay){
-		commentReplayService.updateById(commentReplay);
+    @PreAuthorize("hasAuthority(':commentreplay:update')")
+    public Resp<Object> update(@RequestBody CommentReplayEntity commentReplay) {
+        commentReplayService.updateById(commentReplay);
 
         return Resp.ok(null);
     }
@@ -86,9 +80,9 @@ public class CommentReplayController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority('pms:commentreplay:delete')")
-    public Resp<Object> delete(@RequestBody Long[] ids){
-		commentReplayService.removeByIds(Arrays.asList(ids));
+    @PreAuthorize("hasAuthority(':commentreplay:delete')")
+    public Resp<Object> delete(@RequestBody Long[] ids) {
+        commentReplayService.removeByIds(Arrays.asList(ids));
 
         return Resp.ok(null);
     }

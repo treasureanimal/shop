@@ -1,17 +1,17 @@
 package com.study.gmall.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.study.gmall.pms.entity.SpuAttrValueEntity;
+import com.study.gmall.pms.entity.SpuInfoDescEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * spu属性值
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-18 00:31:59
+ * @date 2020-11-11 13:55:21
  */
 @Mapper
-public interface SpuAttrValueDao extends BaseMapper<SpuAttrValueEntity> {
+public interface SpuInfoDescDao extends BaseMapper<SpuInfoDescEntity> {
 	
 }

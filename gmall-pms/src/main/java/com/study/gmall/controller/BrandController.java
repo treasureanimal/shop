@@ -1,8 +1,5 @@
 package com.study.gmall.controller;
 
-import java.util.Arrays;
-
-
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
@@ -14,17 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+
 
 /**
- * 品牌
- *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-18 00:31:59
+ * @date 2020-11-11 13:55:21
  */
-@Api(tags = "品牌 管理")
+@Api(tags = " 管理")
 @RestController
-@RequestMapping("pms/brand")
+@RequestMapping("/brand")
 public class BrandController {
     @Autowired
     private BrandService brandService;
@@ -34,7 +31,7 @@ public class BrandController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority('pms:brand:list')")
+    @PreAuthorize("hasAuthority(':brand:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = brandService.queryPage(queryCondition);
 
@@ -46,10 +43,10 @@ public class BrandController {
      * 信息
      */
     @ApiOperation("详情查询")
-    @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority('pms:brand:info')")
-    public Resp<BrandEntity> info(@PathVariable("id") Long id){
-		BrandEntity brand = brandService.getById(id);
+    @GetMapping("/info/{brandId}")
+    @PreAuthorize("hasAuthority(':brand:info')")
+    public Resp<BrandEntity> info(@PathVariable("brandId") Long brandId) {
+        BrandEntity brand = brandService.getById(brandId);
 
         return Resp.ok(brand);
     }
@@ -59,9 +56,9 @@ public class BrandController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('pms:brand:save')")
-    public Resp<Object> save(@RequestBody BrandEntity brand){
-		brandService.save(brand);
+    @PreAuthorize("hasAuthority(':brand:save')")
+    public Resp<Object> save(@RequestBody BrandEntity brand) {
+        brandService.save(brand);
 
         return Resp.ok(null);
     }
@@ -71,9 +68,9 @@ public class BrandController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('pms:brand:update')")
-    public Resp<Object> update(@RequestBody BrandEntity brand){
-		brandService.updateById(brand);
+    @PreAuthorize("hasAuthority(':brand:update')")
+    public Resp<Object> update(@RequestBody BrandEntity brand) {
+        brandService.updateById(brand);
 
         return Resp.ok(null);
     }
@@ -83,9 +80,9 @@ public class BrandController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority('pms:brand:delete')")
-    public Resp<Object> delete(@RequestBody Long[] ids){
-		brandService.removeByIds(Arrays.asList(ids));
+    @PreAuthorize("hasAuthority(':brand:delete')")
+    public Resp<Object> delete(@RequestBody Long[] brandIds) {
+        brandService.removeByIds(Arrays.asList(brandIds));
 
         return Resp.ok(null);
     }

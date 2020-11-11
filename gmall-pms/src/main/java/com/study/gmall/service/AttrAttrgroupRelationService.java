@@ -3,17 +3,17 @@ package com.study.gmall.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
-import com.study.gmall.pms.entity.SpuDescEntity;
+import com.study.gmall.pms.entity.AttrAttrgroupRelationEntity;
 
 
 /**
- * spu信息介绍
+ * 
  *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-18 00:31:59
+ * @date 2020-11-11 13:55:21
  */
-public interface SpuDescService extends IService<SpuDescEntity> {
+public interface AttrAttrgroupRelationService extends IService<AttrAttrgroupRelationEntity> {
 
     PageVo queryPage(QueryCondition params);
 }

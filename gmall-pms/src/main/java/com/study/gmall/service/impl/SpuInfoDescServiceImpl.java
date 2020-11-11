@@ -6,20 +6,19 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.Query;
 import com.study.core.bean.QueryCondition;
-import com.study.gmall.dao.SkuImagesDao;
-import com.study.gmall.pms.entity.SkuImagesEntity;
-import com.study.gmall.service.SkuImagesService;
+import com.study.gmall.dao.SpuInfoDescDao;
+import com.study.gmall.pms.entity.SpuInfoDescEntity;
+import com.study.gmall.service.SpuInfoDescService;
 import org.springframework.stereotype.Service;
 
-
-@Service("skuImagesService")
-public class SkuImagesServiceImpl extends ServiceImpl<SkuImagesDao, SkuImagesEntity> implements SkuImagesService {
+@Service("spuInfoDescService")
+public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescDao, SpuInfoDescEntity> implements SpuInfoDescService {
 
     @Override
     public PageVo queryPage(QueryCondition params) {
-        IPage<SkuImagesEntity> page = this.page(
-                new Query<SkuImagesEntity>().getPage(params),
-                new QueryWrapper<SkuImagesEntity>()
+        IPage<SpuInfoDescEntity> page = this.page(
+                new Query<SpuInfoDescEntity>().getPage(params),
+                new QueryWrapper<SpuInfoDescEntity>()
         );
 
         return new PageVo(page);

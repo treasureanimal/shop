@@ -3,17 +3,17 @@ package com.study.gmall.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
-import com.study.gmall.pms.entity.CommentEntity;
+import com.study.gmall.pms.entity.SpuCommentEntity;
 
 
 /**
- * 商品评价
+ * 
  *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-18 00:31:59
+ * @date 2020-11-11 13:55:21
  */
-public interface CommentService extends IService<CommentEntity> {
+public interface SpuCommentService extends IService<SpuCommentEntity> {
 
     PageVo queryPage(QueryCondition params);
 }

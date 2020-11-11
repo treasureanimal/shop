@@ -3,8 +3,8 @@ package com.study.gmall.controller;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
-import com.study.gmall.pms.entity.SkuImagesEntity;
-import com.study.gmall.service.SkuImagesService;
+import com.study.gmall.pms.entity.SpuInfoDescEntity;
+import com.study.gmall.service.SpuInfoDescService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +21,19 @@ import java.util.Arrays;
  */
 @Api(tags = " 管理")
 @RestController
-@RequestMapping("/skuimages")
-public class SkuImagesController {
+@RequestMapping("/spuinfodesc")
+public class SpuInfoDescController {
     @Autowired
-    private SkuImagesService skuImagesService;
+    private SpuInfoDescService spuInfoDescService;
 
     /**
      * 列表
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority(':skuimages:list')")
+    @PreAuthorize("hasAuthority(':spuinfodesc:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
-        PageVo page = skuImagesService.queryPage(queryCondition);
+        PageVo page = spuInfoDescService.queryPage(queryCondition);
 
         return Resp.ok(page);
     }
@@ -43,12 +43,12 @@ public class SkuImagesController {
      * 信息
      */
     @ApiOperation("详情查询")
-    @GetMapping("/info/{id}")
-    @PreAuthorize("hasAuthority(':skuimages:info')")
-    public Resp<SkuImagesEntity> info(@PathVariable("id") Long id) {
-        SkuImagesEntity skuImages = skuImagesService.getById(id);
+    @GetMapping("/info/{spuId}")
+    @PreAuthorize("hasAuthority(':spuinfodesc:info')")
+    public Resp<SpuInfoDescEntity> info(@PathVariable("spuId") Long spuId) {
+        SpuInfoDescEntity spuInfoDesc = spuInfoDescService.getById(spuId);
 
-        return Resp.ok(skuImages);
+        return Resp.ok(spuInfoDesc);
     }
 
     /**
@@ -56,9 +56,9 @@ public class SkuImagesController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority(':skuimages:save')")
-    public Resp<Object> save(@RequestBody SkuImagesEntity skuImages) {
-        skuImagesService.save(skuImages);
+    @PreAuthorize("hasAuthority(':spuinfodesc:save')")
+    public Resp<Object> save(@RequestBody SpuInfoDescEntity spuInfoDesc) {
+        spuInfoDescService.save(spuInfoDesc);
 
         return Resp.ok(null);
     }
@@ -68,9 +68,9 @@ public class SkuImagesController {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority(':skuimages:update')")
-    public Resp<Object> update(@RequestBody SkuImagesEntity skuImages) {
-        skuImagesService.updateById(skuImages);
+    @PreAuthorize("hasAuthority(':spuinfodesc:update')")
+    public Resp<Object> update(@RequestBody SpuInfoDescEntity spuInfoDesc) {
+        spuInfoDescService.updateById(spuInfoDesc);
 
         return Resp.ok(null);
     }
@@ -80,9 +80,9 @@ public class SkuImagesController {
      */
     @ApiOperation("删除")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority(':skuimages:delete')")
-    public Resp<Object> delete(@RequestBody Long[] ids) {
-        skuImagesService.removeByIds(Arrays.asList(ids));
+    @PreAuthorize("hasAuthority(':spuinfodesc:delete')")
+    public Resp<Object> delete(@RequestBody Long[] spuIds) {
+        spuInfoDescService.removeByIds(Arrays.asList(spuIds));
 
         return Resp.ok(null);
     }

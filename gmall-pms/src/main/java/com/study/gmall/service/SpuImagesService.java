@@ -3,17 +3,17 @@ package com.study.gmall.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
-import com.study.gmall.pms.entity.SkuEntity;
+import com.study.gmall.pms.entity.SpuImagesEntity;
 
 
 /**
- * sku信息
+ * 
  *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-18 00:31:59
+ * @date 2020-11-11 13:55:21
  */
-public interface SkuService extends IService<SkuEntity> {
+public interface SpuImagesService extends IService<SpuImagesEntity> {
 
     PageVo queryPage(QueryCondition params);
 }
