@@ -4,22 +4,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
- * 商品评价
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-18 00:31:59
+ * @date 2020-11-11 13:55:21
  */
 @ApiModel
 @Data
-@TableName("pms_comment")
-public class CommentEntity implements Serializable {
+@TableName("pms_spu_comment")
+public class SpuCommentEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -46,8 +45,8 @@ public class CommentEntity implements Serializable {
 	/**
 	 * 会员昵称
 	 */
-	@ApiModelProperty(name = "nickName",value = "会员昵称")
-	private String nickName;
+	@ApiModelProperty(name = "memberNickName",value = "会员昵称")
+	private String memberNickName;
 	/**
 	 * 星级
 	 */
@@ -56,8 +55,8 @@ public class CommentEntity implements Serializable {
 	/**
 	 * 会员ip
 	 */
-	@ApiModelProperty(name = "ip",value = "会员ip")
-	private String ip;
+	@ApiModelProperty(name = "memberIp",value = "会员ip")
+	private String memberIp;
 	/**
 	 * 创建时间
 	 */
@@ -66,8 +65,8 @@ public class CommentEntity implements Serializable {
 	/**
 	 * 显示状态[0-不显示，1-显示]
 	 */
-	@ApiModelProperty(name = "status",value = "显示状态[0-不显示，1-显示]")
-	private Integer status;
+	@ApiModelProperty(name = "showStatus",value = "显示状态[0-不显示，1-显示]")
+	private Integer showStatus;
 	/**
 	 * 购买时属性组合
 	 */
@@ -76,8 +75,8 @@ public class CommentEntity implements Serializable {
 	/**
 	 * 点赞数
 	 */
-	@ApiModelProperty(name = "followCount",value = "点赞数")
-	private Integer followCount;
+	@ApiModelProperty(name = "likesCount",value = "点赞数")
+	private Integer likesCount;
 	/**
 	 * 回复数
 	 */
@@ -96,12 +95,12 @@ public class CommentEntity implements Serializable {
 	/**
 	 * 用户头像
 	 */
-	@ApiModelProperty(name = "icon",value = "用户头像")
-	private String icon;
+	@ApiModelProperty(name = "memberIcon",value = "用户头像")
+	private String memberIcon;
 	/**
 	 * 评论类型[0 - 对商品的直接评论，1 - 对评论的回复]
 	 */
-	@ApiModelProperty(name = "type",value = "评论类型[0 - 对商品的直接评论，1 - 对评论的回复]")
-	private Integer type;
+	@ApiModelProperty(name = "commentType",value = "评论类型[0 - 对商品的直接评论，1 - 对评论的回复]")
+	private Integer commentType;
 
 }

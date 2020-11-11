@@ -4,21 +4,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
- * sku销售属性&值
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-18 00:31:59
+ * @date 2020-11-11 13:55:21
  */
 @ApiModel
 @Data
-@TableName("pms_sku_attr_value")
-public class SkuAttrValueEntity implements Serializable {
+@TableName("pms_sku_sale_attr_value")
+public class SkuSaleAttrValueEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -50,7 +50,7 @@ public class SkuAttrValueEntity implements Serializable {
 	/**
 	 * 顺序
 	 */
-	@ApiModelProperty(name = "sort",value = "顺序")
-	private Integer sort;
+	@ApiModelProperty(name = "attrSort",value = "顺序")
+	private Integer attrSort;
 
 }

@@ -4,21 +4,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
- * spu属性值
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-18 00:31:59
+ * @date 2020-11-11 13:55:21
  */
 @ApiModel
 @Data
-@TableName("pms_spu_attr_value")
-public class SpuAttrValueEntity implements Serializable {
+@TableName("pms_product_attr_value")
+public class ProductAttrValueEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -50,7 +50,12 @@ public class SpuAttrValueEntity implements Serializable {
 	/**
 	 * 顺序
 	 */
-	@ApiModelProperty(name = "sort",value = "顺序")
-	private Integer sort;
+	@ApiModelProperty(name = "attrSort",value = "顺序")
+	private Integer attrSort;
+	/**
+	 * 快速展示【是否展示在介绍上；0-否 1-是】
+	 */
+	@ApiModelProperty(name = "quickShow",value = "快速展示【是否展示在介绍上；0-否 1-是】")
+	private Integer quickShow;
 
 }

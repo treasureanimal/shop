@@ -4,21 +4,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
- * spu信息介绍
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-18 00:31:59
+ * @date 2020-11-11 13:55:21
  */
 @ApiModel
 @Data
-@TableName("pms_spu_desc")
-public class SpuDescEntity implements Serializable {
+@TableName("pms_spu_info_desc")
+public class SpuInfoDescEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**

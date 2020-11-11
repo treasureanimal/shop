@@ -4,22 +4,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
- * spu信息
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-18 00:31:59
+ * @date 2020-11-11 13:55:21
  */
 @ApiModel
 @Data
-@TableName("pms_spu")
-public class SpuEntity implements Serializable {
+@TableName("pms_spu_info")
+public class SpuInfoEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -31,13 +30,18 @@ public class SpuEntity implements Serializable {
 	/**
 	 * 商品名称
 	 */
-	@ApiModelProperty(name = "name",value = "商品名称")
-	private String name;
+	@ApiModelProperty(name = "spuName",value = "商品名称")
+	private String spuName;
+	/**
+	 * 商品描述
+	 */
+	@ApiModelProperty(name = "spuDescription",value = "商品描述")
+	private String spuDescription;
 	/**
 	 * 所属分类id
 	 */
-	@ApiModelProperty(name = "categoryId",value = "所属分类id")
-	private Long categoryId;
+	@ApiModelProperty(name = "catalogId",value = "所属分类id")
+	private Long catalogId;
 	/**
 	 * 品牌id
 	 */
@@ -49,14 +53,14 @@ public class SpuEntity implements Serializable {
 	@ApiModelProperty(name = "publishStatus",value = "上架状态[0 - 下架，1 - 上架]")
 	private Integer publishStatus;
 	/**
-	 * 创建时间
+	 * 
 	 */
-	@ApiModelProperty(name = "createTime",value = "创建时间")
+	@ApiModelProperty(name = "createTime",value = "")
 	private Date createTime;
 	/**
-	 * 更新时间
+	 * 
 	 */
-	@ApiModelProperty(name = "updateTime",value = "更新时间")
+	@ApiModelProperty(name = "updateTime",value = "")
 	private Date updateTime;
 
 }
