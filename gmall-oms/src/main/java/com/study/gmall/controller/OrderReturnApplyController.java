@@ -1,12 +1,8 @@
 package com.study.gmall.controller;
 
-import java.util.Arrays;
-
-
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
-
 import com.study.gmall.oms.entity.OrderReturnApplyEntity;
 import com.study.gmall.service.OrderReturnApplyService;
 import io.swagger.annotations.Api;
@@ -15,15 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+
 
 /**
- * 订单退货申请
- *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:30:20
+ * @date 2020-11-11 20:33:58
  */
-@Api(tags = "订单退货申请 管理")
+@Api(tags = " 管理")
 @RestController
 @RequestMapping("oms/orderreturnapply")
 public class OrderReturnApplyController {
@@ -49,8 +45,8 @@ public class OrderReturnApplyController {
     @ApiOperation("详情查询")
     @GetMapping("/info/{id}")
     @PreAuthorize("hasAuthority('oms:orderreturnapply:info')")
-    public Resp<OrderReturnApplyEntity> info(@PathVariable("id") Long id){
-		OrderReturnApplyEntity orderReturnApply = orderReturnApplyService.getById(id);
+    public Resp<OrderReturnApplyEntity> info(@PathVariable("id") Long id) {
+        OrderReturnApplyEntity orderReturnApply = orderReturnApplyService.getById(id);
 
         return Resp.ok(orderReturnApply);
     }
@@ -61,8 +57,8 @@ public class OrderReturnApplyController {
     @ApiOperation("保存")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('oms:orderreturnapply:save')")
-    public Resp<Object> save(@RequestBody OrderReturnApplyEntity orderReturnApply){
-		orderReturnApplyService.save(orderReturnApply);
+    public Resp<Object> save(@RequestBody OrderReturnApplyEntity orderReturnApply) {
+        orderReturnApplyService.save(orderReturnApply);
 
         return Resp.ok(null);
     }
@@ -73,8 +69,8 @@ public class OrderReturnApplyController {
     @ApiOperation("修改")
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('oms:orderreturnapply:update')")
-    public Resp<Object> update(@RequestBody OrderReturnApplyEntity orderReturnApply){
-		orderReturnApplyService.updateById(orderReturnApply);
+    public Resp<Object> update(@RequestBody OrderReturnApplyEntity orderReturnApply) {
+        orderReturnApplyService.updateById(orderReturnApply);
 
         return Resp.ok(null);
     }
@@ -85,8 +81,8 @@ public class OrderReturnApplyController {
     @ApiOperation("删除")
     @PostMapping("/delete")
     @PreAuthorize("hasAuthority('oms:orderreturnapply:delete')")
-    public Resp<Object> delete(@RequestBody Long[] ids){
-		orderReturnApplyService.removeByIds(Arrays.asList(ids));
+    public Resp<Object> delete(@RequestBody Long[] ids) {
+        orderReturnApplyService.removeByIds(Arrays.asList(ids));
 
         return Resp.ok(null);
     }

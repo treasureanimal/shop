@@ -1,8 +1,5 @@
 package com.study.gmall.controller;
 
-import java.util.Arrays;
-
-
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
@@ -14,16 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+
+
 
 
 /**
- * 退款信息
+ * 
  *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:30:20
+ * @date 2020-11-11 20:33:58
  */
-@Api(tags = "退款信息 管理")
+@Api(tags = " 管理")
 @RestController
 @RequestMapping("oms/refundinfo")
 public class RefundInfoController {

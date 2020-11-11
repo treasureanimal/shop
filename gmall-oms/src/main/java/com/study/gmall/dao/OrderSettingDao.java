@@ -1,15 +1,15 @@
 package com.study.gmall.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.study.gmall.oms.entity.OrderSettingEntity;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 订单配置信息
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:30:20
+ * @date 2020-11-11 20:33:58
  */
 @Mapper
 public interface OrderSettingDao extends BaseMapper<OrderSettingEntity> {

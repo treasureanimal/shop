@@ -4,18 +4,17 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
+import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-
 /**
- * 订单退货申请
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:30:20
+ * @date 2020-11-11 20:33:58
  */
 @ApiModel
 @Data
@@ -162,7 +161,7 @@ public class OrderReturnApplyEntity implements Serializable {
 	/**
 	 * 公司收货地址
 	 */
-	@ApiModelProperty(name = "receiveAddress",value = "公司收货地址")
-	private String receiveAddress;
+	@ApiModelProperty(name = "companyAddress",value = "公司收货地址")
+	private String companyAddress;
 
 }

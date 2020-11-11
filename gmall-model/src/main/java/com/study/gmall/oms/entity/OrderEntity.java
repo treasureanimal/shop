@@ -11,11 +11,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 订单
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:30:20
+ * @date 2020-11-11 20:33:58
  */
 @ApiModel
 @Data
@@ -32,8 +32,8 @@ public class OrderEntity implements Serializable {
 	/**
 	 * member_id
 	 */
-	@ApiModelProperty(name = "userId",value = "member_id")
-	private Long userId;
+	@ApiModelProperty(name = "memberId",value = "member_id")
+	private Long memberId;
 	/**
 	 * 订单号
 	 */
@@ -45,15 +45,15 @@ public class OrderEntity implements Serializable {
 	@ApiModelProperty(name = "couponId",value = "使用的优惠券")
 	private Long couponId;
 	/**
-	 * 创建时间
+	 * create_time
 	 */
-	@ApiModelProperty(name = "createTime",value = "创建时间")
+	@ApiModelProperty(name = "createTime",value = "create_time")
 	private Date createTime;
 	/**
 	 * 用户名
 	 */
-	@ApiModelProperty(name = "username",value = "用户名")
-	private String username;
+	@ApiModelProperty(name = "memberUsername",value = "用户名")
+	private String memberUsername;
 	/**
 	 * 订单总额
 	 */
@@ -187,8 +187,13 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 详细地址
 	 */
-	@ApiModelProperty(name = "receiverAddress",value = "详细地址")
-	private String receiverAddress;
+	@ApiModelProperty(name = "receiverDetailAddress",value = "详细地址")
+	private String receiverDetailAddress;
+	/**
+	 * 订单备注
+	 */
+	@ApiModelProperty(name = "note",value = "订单备注")
+	private String note;
 	/**
 	 * 确认收货状态[0->未确认；1->已确认]
 	 */
@@ -229,10 +234,5 @@ public class OrderEntity implements Serializable {
 	 */
 	@ApiModelProperty(name = "modifyTime",value = "修改时间")
 	private Date modifyTime;
-	/**
-	 * 订单备注
-	 */
-	@ApiModelProperty(name = "remark",value = "订单备注")
-	private String remark;
 
 }
