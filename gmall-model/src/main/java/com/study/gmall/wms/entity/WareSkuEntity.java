@@ -4,16 +4,16 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
- * 商品库存
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:35:39
+ * @date 2020-11-12 09:42:58
  */
 @ApiModel
 @Data
@@ -52,10 +52,5 @@ public class WareSkuEntity implements Serializable {
 	 */
 	@ApiModelProperty(name = "stockLocked",value = "锁定库存")
 	private Integer stockLocked;
-	/**
-	 * 销量
-	 */
-	@ApiModelProperty(name = "sales",value = "销量")
-	private Long sales;
 
 }

@@ -1,9 +1,9 @@
 package com.study.gmall.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.study.gmall.wms.entity.WareOrderTaskDetailEntity;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
-import com.study.gmall.wms.entity.PurchaseDetailEntity;
 
 
 /**
@@ -11,9 +11,9 @@ import com.study.gmall.wms.entity.PurchaseDetailEntity;
  *
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:35:39
+ * @date 2020-11-12 09:42:58
  */
-public interface PurchaseDetailService extends IService<PurchaseDetailEntity> {
+public interface WareOrderTaskDetailService extends IService<WareOrderTaskDetailEntity> {
 
     PageVo queryPage(QueryCondition params);
 }

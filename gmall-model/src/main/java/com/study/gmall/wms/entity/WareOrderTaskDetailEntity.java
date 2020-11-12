@@ -9,16 +9,16 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 仓库信息
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:35:39
+ * @date 2020-11-12 09:42:58
  */
 @ApiModel
 @Data
-@TableName("wms_ware")
-public class WareEntity implements Serializable {
+@TableName("wms_ware_order_task_detail")
+public class WareOrderTaskDetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -28,19 +28,24 @@ public class WareEntity implements Serializable {
 	@ApiModelProperty(name = "id",value = "id")
 	private Long id;
 	/**
-	 * 仓库名
+	 * sku_id
 	 */
-	@ApiModelProperty(name = "name",value = "仓库名")
-	private String name;
+	@ApiModelProperty(name = "skuId",value = "sku_id")
+	private Long skuId;
 	/**
-	 * 仓库地址
+	 * sku_name
 	 */
-	@ApiModelProperty(name = "address",value = "仓库地址")
-	private String address;
+	@ApiModelProperty(name = "skuName",value = "sku_name")
+	private String skuName;
 	/**
-	 * 区域编码
+	 * 购买个数
 	 */
-	@ApiModelProperty(name = "areacode",value = "区域编码")
-	private String areacode;
+	@ApiModelProperty(name = "skuNum",value = "购买个数")
+	private Integer skuNum;
+	/**
+	 * 工作单id
+	 */
+	@ApiModelProperty(name = "taskId",value = "工作单id")
+	private Long taskId;
 
 }

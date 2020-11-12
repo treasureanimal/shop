@@ -4,22 +4,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
- * 库存工作单
+ * 
  * 
  * @author 张晓雄
  * @email 824839090@qq.com
- * @date 2020-09-20 14:35:39
+ * @date 2020-11-12 09:42:58
  */
 @ApiModel
 @Data
-@TableName("wms_ware_order_bill")
-public class WareOrderBillEntity implements Serializable {
+@TableName("wms_ware_order_task")
+public class WareOrderTaskEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -6,19 +6,20 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.Query;
 import com.study.core.bean.QueryCondition;
-import com.study.gmall.dao.WareSkuDao;
-import com.study.gmall.service.WareSkuService;
-import com.study.gmall.wms.entity.WareSkuEntity;
+import com.study.gmall.dao.WareOrderTaskDao;
+import com.study.gmall.service.WareOrderTaskService;
+import com.study.gmall.wms.entity.WareOrderTaskEntity;
 import org.springframework.stereotype.Service;
 
-@Service("wareSkuService")
-public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> implements WareSkuService {
+
+@Service("wareOrderTaskService")
+public class WareOrderTaskServiceImpl extends ServiceImpl<WareOrderTaskDao, WareOrderTaskEntity> implements WareOrderTaskService {
 
     @Override
     public PageVo queryPage(QueryCondition params) {
-        IPage<WareSkuEntity> page = this.page(
-                new Query<WareSkuEntity>().getPage(params),
-                new QueryWrapper<WareSkuEntity>()
+        IPage<WareOrderTaskEntity> page = this.page(
+                new Query<WareOrderTaskEntity>().getPage(params),
+                new QueryWrapper<WareOrderTaskEntity>()
         );
 
         return new PageVo(page);

@@ -7,12 +7,12 @@
     <resultMap type="com.study.gmall.pms.entity.CategoryEntity" id="categoryMap">
         <result property="catId" column="cat_id"/>
         <result property="name" column="name"/>
-        <result property="parentCid" column="parent_id"/>
+        <result property="parentCid" column="parent_cid"/>
+        <result property="catLevel" column="cat_level"/>
         <result property="showStatus" column="show_status"/>
         <result property="sort" column="sort"/>
         <result property="icon" column="icon"/>
         <result property="productUnit" column="product_unit"/>
-        <result property="catLevel" column="cat_level"/>
         <result property="productCount" column="product_count"/>
     </resultMap>
 
