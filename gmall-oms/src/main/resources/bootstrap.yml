@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: oms-service
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: 79d52b0b-2e72-4e71-babf-11d7dca5a759
+        group: dev
+        file-extension: yml #默认bootstrap后缀名是properties需要指定为yml

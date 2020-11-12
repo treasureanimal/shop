@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: ums-service
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: 02f29880-6c12-425c-ac5a-36a9eede0e73
+        group: dev
+        file-extension: yml #默认bootstrap后缀名是properties需要指定为yml
