@@ -1,5 +1,6 @@
 package com.study.gmall.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 
@@ -38,6 +40,13 @@ public class WareSkuController {
         return Resp.ok(page);
     }
 
+    @ApiOperation("根据商品id查询库存信息")
+    @GetMapping("{skuId}")
+    @PreAuthorize("hasAuthority('wms:waresku:info')")
+    public Resp<List<WareSkuEntity>> queryWareSkuBySkuId(@PathVariable("skuId")Long skuId){
+        List<WareSkuEntity> skuEntities = wareSkuService.list(new QueryWrapper<WareSkuEntity>().eq("sku_id", skuId));
+        return Resp.ok(skuEntities);
+    }
 
     /**
      * 信息

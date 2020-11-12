@@ -1,5 +1,6 @@
 package com.study.gmall.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
@@ -12,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -38,6 +40,18 @@ public class SkuInfoController {
         return Resp.ok(page);
     }
 
+    /**
+     * 根据商品id查商品属性
+     * @param spuId
+     * @return
+     */
+    @ApiOperation("分页查询(排序)")
+    @GetMapping("{spuId}")
+    @PreAuthorize("hasAuthority('pms:skuinfo:querySkuBySpuId')")
+    public Resp<List<SkuInfoEntity>> querySkuBySpuId(@PathVariable("spuId")Long spuId){
+        List<SkuInfoEntity> skuInfoEntityList = skuInfoService.list(new QueryWrapper<SkuInfoEntity>().eq("spu_id", spuId));
+        return Resp.ok(skuInfoEntityList);
+    }
 
     /**
      * 信息
