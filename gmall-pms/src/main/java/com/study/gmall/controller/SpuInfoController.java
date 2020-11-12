@@ -38,7 +38,14 @@ public class SpuInfoController {
         return Resp.ok(page);
     }
 
-
+    /**
+     *查本类或者查全站
+     */
+    @GetMapping
+    public Resp<PageVo> querySpuPage(QueryCondition condition,@RequestParam("catId") Long cid){
+        PageVo pageVo = spuInfoService.querySpuPage(condition,cid);
+        return Resp.ok(pageVo);
+    }
     /**
      * 信息
      */

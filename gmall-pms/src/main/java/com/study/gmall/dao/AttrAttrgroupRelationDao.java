@@ -1,7 +1,7 @@
 package com.study.gmall.dao;
 
-import com.study.gmall.pms.entity.AttrAttrgroupRelationEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.study.gmall.pms.entity.AttrAttrgroupRelationEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

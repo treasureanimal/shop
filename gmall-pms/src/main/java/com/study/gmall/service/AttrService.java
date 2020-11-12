@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.study.gmall.pms.entity.AttrEntity;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
+import com.study.gmall.pms.vo.AttrVO;
 
 
 /**
@@ -16,5 +17,7 @@ import com.study.core.bean.QueryCondition;
 public interface AttrService extends IService<AttrEntity> {
 
     PageVo queryPage(QueryCondition params);
+
+    void saveAttrVo(AttrVO attrVo);
 }
 

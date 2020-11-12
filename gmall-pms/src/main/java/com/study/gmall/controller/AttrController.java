@@ -4,6 +4,7 @@ import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
 import com.study.gmall.pms.entity.AttrEntity;
+import com.study.gmall.pms.vo.AttrVO;
 import com.study.gmall.service.AttrService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -57,9 +58,8 @@ public class AttrController {
     @ApiOperation("保存")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('pms:attr:save')")
-    public Resp<Object> save(@RequestBody AttrEntity attr) {
-        attrService.save(attr);
-
+    public Resp<Object> save(@RequestBody AttrVO attrVo) {
+        attrService.saveAttrVo(attrVo);
         return Resp.ok(null);
     }
 
