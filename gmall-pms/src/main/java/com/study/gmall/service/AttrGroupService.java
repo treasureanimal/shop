@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.study.gmall.pms.entity.AttrGroupEntity;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
+import com.study.gmall.pms.vo.AttrGroupVO;
 
 
 /**
@@ -16,5 +17,9 @@ import com.study.core.bean.QueryCondition;
 public interface AttrGroupService extends IService<AttrGroupEntity> {
 
     PageVo queryPage(QueryCondition params);
+
+    PageVo queryByCidPage(Long cid, QueryCondition condition);
+
+    AttrGroupVO queryById(Long gid);
 }
 

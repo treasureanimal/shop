@@ -4,6 +4,7 @@ import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
 import com.study.gmall.pms.entity.AttrGroupEntity;
+import com.study.gmall.pms.vo.AttrGroupVO;
 import com.study.gmall.service.AttrGroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -85,6 +86,22 @@ public class AttrGroupController {
         attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
 
         return Resp.ok(null);
+    }
+
+    @ApiOperation("根据三级分类id分页查询")
+    @GetMapping("{cid}")
+    public Resp<PageVo> queryByCidPage(@PathVariable("cid")Long cid, QueryCondition condition){
+
+        PageVo pageVo = this.attrGroupService.queryByCidPage(cid, condition);
+        return Resp.ok(pageVo);
+    }
+
+    @ApiOperation("根据分组id查询分组及组下的规格参数")
+    @GetMapping("withattr/{gid}")
+    public Resp<AttrGroupVO> queryById(@PathVariable("gid")Long gid){
+
+        AttrGroupVO attrGroupVO = this.attrGroupService.queryById(gid);
+        return Resp.ok(attrGroupVO);
     }
 
 }

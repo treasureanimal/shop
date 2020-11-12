@@ -19,5 +19,7 @@ public interface AttrService extends IService<AttrEntity> {
     PageVo queryPage(QueryCondition params);
 
     void saveAttrVo(AttrVO attrVo);
+
+    PageVo queryByCidTypePage(QueryCondition queryCondition, Long cid, Integer type);
 }
 

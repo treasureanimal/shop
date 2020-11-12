@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -19,7 +20,7 @@ import java.util.Arrays;
  * @email 824839090@qq.com
  * @date 2020-11-11 20:43:49
  */
-@Api(tags = " 管理")
+@Api(tags = "管理")
 @RestController
 @RequestMapping("pms/category")
 public class CategoryController {
@@ -38,7 +39,14 @@ public class CategoryController {
         return Resp.ok(page);
     }
 
-
+    @ApiOperation("分类查询所有")
+    @GetMapping
+    @PreAuthorize("hasAuthority('pms:category:list')")
+    public Resp<List<CategoryEntity>> queryCategory(@RequestParam(value="level", defaultValue = "0")Integer level,
+                                                    @RequestParam(value="parentCid", required = false)Long parentCid){
+        List<CategoryEntity> categoryEntities = categoryService.queryCategory(level, parentCid);
+        return Resp.ok(categoryEntities);
+    }
     /**
      * 信息
      */

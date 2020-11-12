@@ -5,6 +5,8 @@ import com.study.gmall.pms.entity.AttrAttrgroupRelationEntity;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 
+import java.util.List;
+
 
 /**
  * 
@@ -16,5 +18,7 @@ import com.study.core.bean.QueryCondition;
 public interface AttrAttrgroupRelationService extends IService<AttrAttrgroupRelationEntity> {
 
     PageVo queryPage(QueryCondition params);
+
+    void delete(List<AttrAttrgroupRelationEntity> relationEntities);
 }
 
