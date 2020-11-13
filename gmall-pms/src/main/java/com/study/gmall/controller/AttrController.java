@@ -41,9 +41,9 @@ public class AttrController {
 
     @ApiOperation("根据条件分页查询")
     @GetMapping
-    public Resp<PageVo> queryByCidTypePage(QueryCondition queryCondition
-            , @RequestParam("cid")Long cid
-            , @RequestParam(value="type", required = false) Integer type) {
+    public Resp<PageVo> queryByCidTypePage(QueryCondition queryCondition,
+                                           @RequestParam("cid")Long cid,
+                                           @RequestParam(value="type", required = false) Integer type) {
         PageVo page = attrService.queryByCidTypePage(queryCondition, cid, type);
 
         return Resp.ok(page);
