@@ -30,7 +30,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     public PageVo querySpuPage(QueryCondition condition, Long cid) {
         QueryWrapper<SpuInfoEntity> spuInfoEntityQueryWrapper = new QueryWrapper<>();
         if (cid != 0) {
-            spuInfoEntityQueryWrapper.eq("catalogId",cid);
+            spuInfoEntityQueryWrapper.eq("catalog_id",cid);
         }
         String key = condition.getKey();
         if (StringUtils.isNotBlank(key)) {
