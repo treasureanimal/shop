@@ -6,6 +6,8 @@ import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.gmall.pms.vo.AttrGroupVO;
 
+import java.util.List;
+
 
 /**
  * 
@@ -21,5 +23,7 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
     PageVo queryByCidPage(Long cid, QueryCondition condition);
 
     AttrGroupVO queryById(Long gid);
+
+    List<AttrGroupVO> queryGroupByCid(Long catId);
 }
 
