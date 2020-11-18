@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.study.gmall.pms.entity.SpuInfoEntity;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
+import com.study.gmall.pms.vo.SpuInfoVO;
 
 
 /**
@@ -18,5 +19,7 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
     PageVo queryPage(QueryCondition params);
 
     PageVo querySpuPage(QueryCondition condition, Long cid);
+
+    void bigSave(SpuInfoVO spuInfoVO);
 }
 

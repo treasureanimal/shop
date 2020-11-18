@@ -7,15 +7,21 @@ import com.study.core.bean.PageVo;
 import com.study.core.bean.Query;
 import com.study.core.bean.QueryCondition;
 import com.study.gmall.dao.SpuInfoDao;
+import com.study.gmall.dao.SpuInfoDescDao;
+import com.study.gmall.pms.entity.SpuInfoDescEntity;
 import com.study.gmall.pms.entity.SpuInfoEntity;
+import com.study.gmall.pms.vo.SpuInfoVO;
 import com.study.gmall.service.SpuInfoService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service("spuInfoService")
 public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> implements SpuInfoService {
 
+    @Autowired
+    private SpuInfoDescDao descDao;
     @Override
     public PageVo queryPage(QueryCondition params) {
         IPage<SpuInfoEntity> page = this.page(
@@ -42,6 +48,27 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         );
 
         return new PageVo(page);
+    }
+
+    @Override
+    public void bigSave(SpuInfoVO spuInfoVO) {
+        /*1.保存spu相关的3张表*/
+        //1.1.保存pms_spu_info信息
+        this.save(spuInfoVO);
+        Long spuId = spuInfoVO.getId();
+        //1.2.保存pms_spu_info_desc信息
+        SpuInfoDescEntity spuInfoDescEntity = new SpuInfoDescEntity();
+        spuInfoDescEntity.setSpuId(spuId);
+
+        //1.3.保存pms_product_attr_value信息
+        //2.保存sku相关的3张表
+        //2.1.保存pms_sku_info
+        //2.2.保存pms_sku_images
+        //2.3.保存pms_sale_attr_value
+        //3.保存营销信息的3张表
+        //3.1.保存sms_sku_bounds
+        //3.2.保存sms_sku_ladder
+        //3.3.保存sms_sku_full_reduction
     }
 
 }
