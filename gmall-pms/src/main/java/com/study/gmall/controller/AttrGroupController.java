@@ -106,7 +106,7 @@ public class AttrGroupController {
     }
 
     @ApiOperation("根据分组id查询分组及组下的规格参数")
-    @GetMapping("withattr/cat/{catId}")
+    @GetMapping("withattrs/cat/{catId}")
     public Resp<List<AttrGroupVO>> queryGroupByCid(@PathVariable("catId")Long catId){
         List<AttrGroupVO> groupVOS = attrGroupService.queryGroupByCid(catId);
         return Resp.ok(groupVOS);
