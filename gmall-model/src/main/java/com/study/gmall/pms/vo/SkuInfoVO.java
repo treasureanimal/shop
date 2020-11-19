@@ -24,4 +24,6 @@ public class SkuInfoVO extends SkuInfoEntity {
     private Integer fullAddOther;
     //销售属性及值
     private List<SkuSaleAttrValueEntity> saleAttrs;
+    //sku图片
+    private List<String> images;
 }
