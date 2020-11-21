@@ -7,6 +7,7 @@ import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
 import com.study.gmall.service.SkuBoundsService;
+import com.study.gmall.sms.vo.SkuSaleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,8 +90,12 @@ public class SkuBoundsController {
     @PreAuthorize("hasAuthority('sms:skubounds:delete')")
     public Resp<Object> delete(@RequestBody Long[] ids){
 		skuBoundsService.removeByIds(Arrays.asList(ids));
-
         return Resp.ok(null);
     }
 
+    @PostMapping("sku/sale/save")
+    public Resp<Object> saveSale(@RequestBody SkuSaleVO skuSaleVO){
+        skuBoundsService.saveSale(skuSaleVO);
+        return  Resp.ok(null);
+    }
 }

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.Query;
 import com.study.core.bean.QueryCondition;
+import com.study.gmall.api.GmallSmsClientApi;
 import com.study.gmall.dao.SkuInfoDao;
 import com.study.gmall.dao.SpuInfoDao;
 import com.study.gmall.dao.SpuInfoDescDao;
@@ -18,7 +19,9 @@ import com.study.gmall.service.ProductAttrValueService;
 import com.study.gmall.service.SkuImagesService;
 import com.study.gmall.service.SkuSaleAttrValueService;
 import com.study.gmall.service.SpuInfoService;
+import com.study.gmall.sms.vo.SkuSaleVO;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +43,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     private SkuImagesService skuImagesService;
     @Autowired
     private SkuSaleAttrValueService skuSaleAttrValueService;
+    @Autowired
+    private GmallSmsClientApi gmallSmsClientApi;
 
     @Override
     public PageVo queryPage(QueryCondition params) {
@@ -129,9 +134,10 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 skuSaleAttrValueService.saveBatch(saleAttrs);
             }
             //3.保存营销信息的3张表
-            //3.1.保存sms_sku_bounds
-            //3.2.保存sms_sku_ladder
-            //3.3.保存sms_sku_full_reduction
+            SkuSaleVO skuSaleVO = new SkuSaleVO();
+            BeanUtils.copyProperties(skuInfoVO,skuSaleVO);
+            skuSaleVO.setSkuId(skuId);
+            gmallSmsClientApi.saveSale(skuSaleVO);
         });
     }
 
