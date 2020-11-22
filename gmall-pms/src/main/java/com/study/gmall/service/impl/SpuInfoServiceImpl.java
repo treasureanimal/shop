@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -74,6 +75,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     }
 
     @Override
+    @Transactional
     public void bigSave(SpuInfoVO spuInfoVO) {
         /*1.保存spu相关的3张表*/
         //1.1.保存pms_spu_info信息
@@ -97,7 +99,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }
     }
     private void saveSkuAndSale(SpuInfoVO spuInfoVO, Long spuId){
-//2.1.保存pms_sku_info
+        //2.1.保存pms_sku_info
         List<SkuInfoVO> skus = spuInfoVO.getSkus();
         if (CollectionUtils.isEmpty(skus)) {
             return;
