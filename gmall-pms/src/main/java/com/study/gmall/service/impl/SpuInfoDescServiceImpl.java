@@ -29,7 +29,6 @@ public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescDao, SpuInfoD
      * @param spuId spuId
      */
     @Override
-    @Transactional(propagation= Propagation.REQUIRES_NEW)
     public void saveSpuInfoDesc(SpuInfoVO spuInfoVO, Long spuId) {
         List<String> spuImages = spuInfoVO.getSpuImages();
         if (!CollectionUtils.isEmpty(spuImages)) {
