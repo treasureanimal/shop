@@ -16,6 +16,7 @@ import com.study.core.bean.PageVo;
 import com.study.core.bean.Query;
 import com.study.core.bean.QueryCondition;
 import com.study.gmall.sms.entity.SkuBoundsEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class SkuBoundsServiceImpl extends ServiceImpl<SkuBoundsDao, SkuBoundsEnt
     }
 
     @Override
+    @Transactional
     public void saveSale(SkuSaleVO skuSaleVO) {
         //3.1.保存sms_sku_bounds
         SkuBoundsEntity skuBoundsEntity = new SkuBoundsEntity();

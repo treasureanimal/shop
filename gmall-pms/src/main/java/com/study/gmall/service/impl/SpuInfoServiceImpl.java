@@ -17,6 +17,7 @@ import com.study.gmall.pms.vo.SkuInfoVO;
 import com.study.gmall.pms.vo.SpuInfoVO;
 import com.study.gmall.service.*;
 import com.study.gmall.sms.vo.SkuSaleVO;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     }
 
     @Override
-    @Transactional
+    @GlobalTransactional
     public void bigSave(SpuInfoVO spuInfoVO) {
         /*1.保存spu相关的3张表*/
         //1.1.保存pms_spu_info信息
