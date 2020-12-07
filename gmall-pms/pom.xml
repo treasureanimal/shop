@@ -14,11 +14,6 @@
     <dependencies>
         <dependency>
             <groupId>com.study</groupId>
-            <artifactId>gmall-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.study</groupId>
             <artifactId>gmall-model</artifactId>
             <version>${project.version}</version>
         </dependency>
