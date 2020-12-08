@@ -19,12 +19,11 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
-    @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
-    public HikariDataSource hikariDataSource(@Value(${"spring.datasource.url"}) String url) {
+    public HikariDataSource hikariDataSource(@Value("${spring.datasource.url}") String url) {
         HikariDataSource hikariDataSource = new HikariDataSource();
         hikariDataSource.setJdbcUrl(url);
-        return
+        return hikariDataSource;
     }
 
     /**
