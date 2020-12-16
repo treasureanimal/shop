@@ -1,4 +1,4 @@
-package com.study.gmall.api;
+package com.study.gmall.feign;
 
 import com.study.gmall.sms.api.GmallSmsApi;
 import org.springframework.cloud.openfeign.FeignClient;
