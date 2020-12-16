@@ -5,6 +5,8 @@ import com.study.gmall.pms.entity.ProductAttrValueEntity;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 
+import java.util.List;
+
 
 /**
  * 
@@ -16,5 +18,7 @@ import com.study.core.bean.QueryCondition;
 public interface ProductAttrValueService extends IService<ProductAttrValueEntity> {
 
     PageVo queryPage(QueryCondition params);
+
+    List<ProductAttrValueEntity> querySearchAttrValueBySpuId(Long spuId);
 }
 

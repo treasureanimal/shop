@@ -99,6 +99,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             productAttrValueService.saveBatch(collect);
         }
     }
+
     private void saveSkuAndSale(SpuInfoVO spuInfoVO, Long spuId){
         //2.1.保存pms_sku_info
         List<SkuInfoVO> skus = spuInfoVO.getSkus();
