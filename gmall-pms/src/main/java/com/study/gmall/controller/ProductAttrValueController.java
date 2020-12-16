@@ -7,11 +7,13 @@ import com.study.gmall.pms.entity.ProductAttrValueEntity;
 import com.study.gmall.service.ProductAttrValueService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.elasticsearch.client.license.LicensesStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -25,6 +27,15 @@ import java.util.Arrays;
 public class ProductAttrValueController {
     @Autowired
     private ProductAttrValueService productAttrValueService;
+
+    /**
+     *根据spuId查询商品对应的搜索属性及值
+     */
+    @GetMapping("{spuId}")
+    public Resp<List<ProductAttrValueEntity>> querySearchAttrValueBySpuId(@PathVariable("spuId") Long spuId){
+        List<ProductAttrValueEntity> productAttrValueEntities = productAttrValueService.querySearchAttrValueBySpuId(spuId);
+        return Resp.ok(productAttrValueEntities);
+    }
 
     /**
      * 列表

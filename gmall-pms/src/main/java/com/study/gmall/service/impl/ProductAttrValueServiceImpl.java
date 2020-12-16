@@ -9,11 +9,17 @@ import com.study.core.bean.QueryCondition;
 import com.study.gmall.dao.ProductAttrValueDao;
 import com.study.gmall.pms.entity.ProductAttrValueEntity;
 import com.study.gmall.service.ProductAttrValueService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service("productAttrValueService")
 public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao, ProductAttrValueEntity> implements ProductAttrValueService {
+
+    @Autowired
+    private ProductAttrValueDao productAttrValueDao;
 
     @Override
     public PageVo queryPage(QueryCondition params) {
@@ -23,6 +29,11 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao
         );
 
         return new PageVo(page);
+    }
+
+    @Override
+    public List<ProductAttrValueEntity> querySearchAttrValueBySpuId(Long spuId) {
+return this.productAttrValueDao.querySearchAttrValueBySpuId(spuId);
     }
 
 }
