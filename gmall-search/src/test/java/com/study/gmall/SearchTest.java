@@ -1,6 +1,5 @@
 package com.study.gmall;
 
-import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
 import com.study.gmall.feign.GmallPmsClient;
