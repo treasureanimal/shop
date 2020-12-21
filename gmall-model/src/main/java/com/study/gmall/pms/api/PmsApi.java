@@ -3,16 +3,18 @@ package com.study.gmall.pms.api;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
-import com.study.gmall.pms.entity.BrandEntity;
-import com.study.gmall.pms.entity.CategoryEntity;
-import com.study.gmall.pms.entity.ProductAttrValueEntity;
-import com.study.gmall.pms.entity.SkuInfoEntity;
+import com.study.gmall.pms.entity.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.List;
 
 public interface PmsApi {
 
+    @PostMapping("pms/spuinfo/page")
+    Resp<List<SpuInfoEntity>> querySpuPage(@RequestBody QueryCondition queryCondition);
     /**
      * 分页查询(排序)
      */

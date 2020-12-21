@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.Query;
 import com.study.core.bean.QueryCondition;
-import com.study.gmall.api.GmallSmsClientApi;
+import com.study.gmall.feign.GmallSmsClientApi;
 import com.study.gmall.dao.SkuInfoDao;
 import com.study.gmall.dao.SpuInfoDao;
 import com.study.gmall.dao.SpuInfoDescDao;
@@ -22,7 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
