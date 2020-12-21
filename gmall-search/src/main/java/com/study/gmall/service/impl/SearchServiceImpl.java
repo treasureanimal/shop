@@ -1,0 +1,138 @@
+package com.study.gmall.service.impl;
+
+import com.study.gmall.search.pojo.SearchParamVO;
+import com.study.gmall.service.SearchPmsService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.lucene.search.join.ScoreMode;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.*;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+
+@Service
+public class SearchServiceImpl implements SearchPmsService {
+
+    @Autowired
+    private RestHighLevelClient restHighLevelClient;
+
+    @Override
+    public void search(SearchParamVO searchParamVO) throws IOException {
+
+        //构建DSL语句
+        SearchRequest searchRequest = this.buildQueryDsl(searchParamVO);
+        SearchResponse searchResponse = this.restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+        System.out.println("response = " + searchResponse);
+    }
+
+    private SearchRequest buildQueryDsl(SearchParamVO searchParamVO) {
+        //查询条件构建器
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        //1构建查询条件和过滤条件
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        //1.1构建查询条件
+        String keyword = searchParamVO.getKeyword(); //查询关键字
+        if (StringUtils.isEmpty(keyword)) {
+            return null;
+        }
+        boolQueryBuilder.must(QueryBuilders.matchQuery("title", keyword).operator(Operator.AND));
+        //1.2构建过滤条件
+        //1.2.1构建品牌过滤
+        String[] brand = searchParamVO.getBrand();
+        if (brand != null && brand.length != 0) {
+            boolQueryBuilder.filter(QueryBuilders.termsQuery("brandId", brand));
+        }
+        //1.2.2构建分类过滤
+        String[] catelog3 = searchParamVO.getCatelog3();
+        if (catelog3 != null && catelog3.length != 0) {
+            boolQueryBuilder.filter(QueryBuilders.termsQuery("categoryId", catelog3));
+        }
+        //1.2.3构建规格属性的嵌套过滤
+        String[] props = searchParamVO.getProps();
+        if (props != null && props.length != 0) {
+            for (String prop : props) {
+                //以冒号进行分割，分割后应该有两个参数，1-attrId，2-attrValue
+                String[] split = StringUtils.split(prop, ":");
+                //校验参数合不合法
+                if (split == null || split.length != 2) {
+                    continue;
+                }
+                //以-分割处理attrValues
+                String[] attrValues = StringUtils.split(split[1], "-");
+                //构建嵌套查询
+                BoolQueryBuilder builder = QueryBuilders.boolQuery();
+                //构建嵌套查询中的子查询
+                BoolQueryBuilder subBuilder = QueryBuilders.boolQuery();
+                //构建子查询中的过滤条件
+                subBuilder.must(QueryBuilders.termQuery("attrs.attrId", split[0]));
+                subBuilder.must(QueryBuilders.termsQuery("attrs.attrValue", attrValues));
+                builder.must(QueryBuilders.nestedQuery("attrs", subBuilder, ScoreMode.None));
+                boolQueryBuilder.filter(builder);
+            }
+        }
+        //1.2.4价格区间过滤
+        RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery("xxx");
+        Integer priceFrom = searchParamVO.getPriceFrom();
+        Integer priceTo = searchParamVO.getPriceTo();
+        if (priceFrom != null) {
+            rangeQueryBuilder.gte(priceFrom);
+        }
+        if (priceFrom != null) {
+            rangeQueryBuilder.lte(priceTo);
+        }
+        boolQueryBuilder.filter(rangeQueryBuilder);
+        searchSourceBuilder.query(boolQueryBuilder);
+
+        //2构建分页
+        Integer pageNum = searchParamVO.getPageNum();
+        Integer pageSize = searchParamVO.getPageSize();
+        searchSourceBuilder.from((pageNum - 1) * pageSize); //从第多少条数据开始
+        searchSourceBuilder.size(pageSize);     //每页多少条数据
+
+        //3构建排序
+        String order = searchParamVO.getOrder();
+        if (!StringUtils.isEmpty(order)) {
+            String[] split = StringUtils.split(order, ":");
+            if (split != null && split.length ==2) {
+                String field = null;
+                switch (split[0]){
+                    case "1": field = "sale"; break;    //销量排序
+                    case "2": field = "price"; break;   //价格排序
+                }
+                assert field != null;
+                searchSourceBuilder.sort(field,StringUtils.equals("asc",split[1]) ? SortOrder.ASC : SortOrder.DESC);
+            }
+        }
+
+        //4构建高亮
+        searchSourceBuilder.highlighter(new HighlightBuilder().field("title").preTags("<em>").postTags("</em>"));
+
+        //5构建聚合条件
+        //5.1品牌聚合
+        searchSourceBuilder.aggregation(AggregationBuilders.terms("brandIdAgg").field("brandId")
+                .subAggregation(AggregationBuilders.terms("brandNameAgg").field("brandName")));
+        //5.2分类聚合
+        searchSourceBuilder.aggregation(AggregationBuilders.terms("categoryIdAgg").field("categoryId")
+                .subAggregation(AggregationBuilders.terms("categoryNameAgg").field("categoryName")));
+        //5.3搜索的规格属性聚合
+        searchSourceBuilder.aggregation(AggregationBuilders.nested("attrAgg","attrs")
+                .subAggregation(AggregationBuilders.terms("attrIdAgg").field("attrs.attrId")
+                    .subAggregation(AggregationBuilders.terms("attrNameAgg").field("attrs.attrName"))
+                    .subAggregation(AggregationBuilders.terms("attrValueAgg").field("attrs.attrValue"))));
+
+        System.out.println("searchSourceBuilder.toString() = " + searchSourceBuilder.toString());
+
+        SearchRequest goods = new SearchRequest("goods");
+        goods.types("info");
+        goods.source(searchSourceBuilder);
+        return goods;
+    }
+}
