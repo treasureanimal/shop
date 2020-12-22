@@ -1,7 +1,16 @@
 package com.study.gmall.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.study.gmall.search.pojo.Goods;
 import com.study.gmall.search.pojo.SearchParamVO;
+import com.study.gmall.search.pojo.SearchResponseAttrVO;
+import com.study.gmall.search.pojo.SearchResponseVO;
 import com.study.gmall.service.SearchPmsService;
+import io.jsonwebtoken.lang.Collections;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.search.SearchRequest;
@@ -9,28 +18,116 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.*;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.ParsedLongTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.ParsedStringTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class SearchServiceImpl implements SearchPmsService {
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     private RestHighLevelClient restHighLevelClient;
 
     @Override
-    public void search(SearchParamVO searchParamVO) throws IOException {
+    public SearchResponseVO search(SearchParamVO searchParamVO) throws IOException {
 
         //构建DSL语句
         SearchRequest searchRequest = this.buildQueryDsl(searchParamVO);
         SearchResponse searchResponse = this.restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
         System.out.println("response = " + searchResponse);
+
+        SearchResponseVO searchResponseVO = this.paseSearchResult(searchResponse);
+        searchResponseVO.setPageSize(searchParamVO.getPageSize());
+        searchResponseVO.setPageNum(searchParamVO.getPageNum());
+        return searchResponseVO;
+    }
+
+    private SearchResponseVO paseSearchResult(SearchResponse searchResponse) throws JsonProcessingException {
+        SearchResponseVO searchResponseVO = new SearchResponseVO();
+        //获取总命中的总记录数
+        SearchHits hits = searchResponse.getHits();
+        searchResponseVO.setTotal(hits.getTotalHits());
+
+        //解析分类的聚合结果集
+        SearchResponseAttrVO category = new SearchResponseAttrVO();
+        category.setName("分类");
+        Map<String, Aggregation> aggregationMap = searchResponse.getAggregations().asMap();
+        ParsedLongTerms categoryIdAgg = (ParsedLongTerms) aggregationMap.get("categoryIdAgg");
+        List<String> categoryValues = categoryIdAgg.getBuckets().stream().map(bucket -> {
+            HashMap<String, String> map = new HashMap<>();
+            //获取品牌Id
+            map.put("id", bucket.getKeyAsString());
+            //通过子聚合获取品牌名称
+            Map<String, Aggregation> stringAggregationMap = bucket.getAggregations().asMap();
+            ParsedStringTerms categoryNameAgg = (ParsedStringTerms) stringAggregationMap.get("categoryNameAgg");
+            String categoryName = categoryNameAgg.getBuckets().get(0).getKeyAsString();
+            map.put("name", categoryName);
+            try {
+                return objectMapper.writeValueAsString(map);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }).collect(Collectors.toList());
+        category.setValue(categoryValues);
+        searchResponseVO.setCatelog(category);
+
+        searchResponseVO.setAttrs(null); //规格参数
+        //解析品牌的聚合结果集
+        SearchResponseAttrVO brand = new SearchResponseAttrVO();
+        brand.setName("品牌");
+        ParsedLongTerms brandIdAgg = (ParsedLongTerms) aggregationMap.get("brandIdAgg");
+        List<String> brandValues = brandIdAgg.getBuckets().stream().map(bucket -> {
+            HashMap<String, String> map = new HashMap<>();
+            //获取品牌Id
+            map.put("id", bucket.getKeyAsString());
+            //通过子聚合获取品牌名称
+            Map<String, Aggregation> stringAggregationMap = bucket.getAggregations().asMap();
+            ParsedStringTerms brandNameAgg = (ParsedStringTerms) stringAggregationMap.get("brandNameAgg");
+            String brandName = brandNameAgg.getBuckets().get(0).getKeyAsString();
+            map.put("name", brandName);
+            try {
+                return objectMapper.writeValueAsString(map);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }).collect(Collectors.toList());
+        brand.setValue(brandValues);
+        searchResponseVO.setBrand(brand);
+
+        //解析商品信息
+        SearchHit[] subHits = hits.getHits();
+        ArrayList<Goods> goodList = new ArrayList<>();
+        for (SearchHit subHit : subHits) {
+            Goods goods = objectMapper.readValue(subHit.getSourceAsString(), new TypeReference<Goods>() {
+            }); //反序列化为Goods
+            goodList.add(goods);
+        }
+        searchResponseVO.setProducts(goodList);
+        return searchResponseVO;
     }
 
     private SearchRequest buildQueryDsl(SearchParamVO searchParamVO) {
@@ -79,7 +176,7 @@ public class SearchServiceImpl implements SearchPmsService {
             }
         }
         //1.2.4价格区间过滤
-        RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery("xxx");
+        RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery("price");
         Integer priceFrom = searchParamVO.getPriceFrom();
         Integer priceTo = searchParamVO.getPriceTo();
         if (priceFrom != null) {
@@ -101,14 +198,18 @@ public class SearchServiceImpl implements SearchPmsService {
         String order = searchParamVO.getOrder();
         if (!StringUtils.isEmpty(order)) {
             String[] split = StringUtils.split(order, ":");
-            if (split != null && split.length ==2) {
+            if (split != null && split.length == 2) {
                 String field = null;
-                switch (split[0]){
-                    case "1": field = "sale"; break;    //销量排序
-                    case "2": field = "price"; break;   //价格排序
+                switch (split[0]) {
+                    case "1":
+                        field = "sale";
+                        break;    //销量排序
+                    case "2":
+                        field = "price";
+                        break;   //价格排序
                 }
                 assert field != null;
-                searchSourceBuilder.sort(field,StringUtils.equals("asc",split[1]) ? SortOrder.ASC : SortOrder.DESC);
+                searchSourceBuilder.sort(field, StringUtils.equals("asc", split[1]) ? SortOrder.ASC : SortOrder.DESC);
             }
         }
 
@@ -123,10 +224,10 @@ public class SearchServiceImpl implements SearchPmsService {
         searchSourceBuilder.aggregation(AggregationBuilders.terms("categoryIdAgg").field("categoryId")
                 .subAggregation(AggregationBuilders.terms("categoryNameAgg").field("categoryName")));
         //5.3搜索的规格属性聚合
-        searchSourceBuilder.aggregation(AggregationBuilders.nested("attrAgg","attrs")
+        searchSourceBuilder.aggregation(AggregationBuilders.nested("attrAgg", "attrs")
                 .subAggregation(AggregationBuilders.terms("attrIdAgg").field("attrs.attrId")
-                    .subAggregation(AggregationBuilders.terms("attrNameAgg").field("attrs.attrName"))
-                    .subAggregation(AggregationBuilders.terms("attrValueAgg").field("attrs.attrValue"))));
+                        .subAggregation(AggregationBuilders.terms("attrNameAgg").field("attrs.attrName"))
+                        .subAggregation(AggregationBuilders.terms("attrValueAgg").field("attrs.attrValue"))));
 
         System.out.println("searchSourceBuilder.toString() = " + searchSourceBuilder.toString());
 
