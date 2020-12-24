@@ -1,16 +1,14 @@
 package com.study.gmall.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.study.gmall.search.pojo.Goods;
 import com.study.gmall.search.pojo.SearchParamVO;
 import com.study.gmall.search.pojo.SearchResponseAttrVO;
 import com.study.gmall.search.pojo.SearchResponseVO;
 import com.study.gmall.service.SearchPmsService;
-import io.jsonwebtoken.lang.Collections;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.search.SearchRequest;
@@ -22,11 +20,10 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.Aggregations;
-import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
+import org.elasticsearch.search.aggregations.bucket.nested.ParsedNested;
 import org.elasticsearch.search.aggregations.bucket.terms.ParsedLongTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.ParsedStringTerms;
-import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -40,9 +37,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
+@Slf4j
 public class SearchServiceImpl implements SearchPmsService {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
@@ -94,7 +91,6 @@ public class SearchServiceImpl implements SearchPmsService {
         category.setValue(categoryValues);
         searchResponseVO.setCatelog(category);
 
-        searchResponseVO.setAttrs(null); //规格参数
         //解析品牌的聚合结果集
         SearchResponseAttrVO brand = new SearchResponseAttrVO();
         brand.setName("品牌");
@@ -118,12 +114,35 @@ public class SearchServiceImpl implements SearchPmsService {
         brand.setValue(brandValues);
         searchResponseVO.setBrand(brand);
 
+        //规格参数
+        //获取嵌套聚合对象
+        ParsedNested attrAgg = (ParsedNested) aggregationMap.get("attrAgg");
+        //获取规格参数聚合对象
+        ParsedLongTerms attrIdAgg = attrAgg.getAggregations().get("attrIdAgg");
+        List<Terms.Bucket> buckets = (List<Terms.Bucket>)attrIdAgg.getBuckets();
+        if (!CollectionUtils.isEmpty(buckets)) {
+            List<SearchResponseAttrVO> searchResponseAttrVOS = attrIdAgg.getBuckets().stream().map(bucket -> {
+                SearchResponseAttrVO searchResponseAttrVO = new SearchResponseAttrVO();
+                //设置规格参数的id
+                searchResponseAttrVO.setProductAttributeId((bucket).getKeyAsNumber().longValue());
+                //设置规格参数的名成
+                List<? extends Terms.Bucket> nameBuckets = ((ParsedStringTerms) bucket.getAggregations().get("attrNameAgg")).getBuckets();
+                searchResponseAttrVO.setName(nameBuckets.get(0).getKeyAsString());
+                //设置规格参数值列表
+                List<? extends Terms.Bucket> valueBuckets = ((ParsedStringTerms) bucket.getAggregations().get("attrValueAgg")).getBuckets();
+                List<String> values = valueBuckets.stream().map(Terms.Bucket::getKeyAsString).collect(Collectors.toList());
+                searchResponseAttrVO.setValue(values);
+                return searchResponseAttrVO;
+            }).collect(Collectors.toList());
+            searchResponseVO.setAttrs(searchResponseAttrVOS);
+        }
         //解析商品信息
         SearchHit[] subHits = hits.getHits();
         ArrayList<Goods> goodList = new ArrayList<>();
         for (SearchHit subHit : subHits) {
             Goods goods = objectMapper.readValue(subHit.getSourceAsString(), new TypeReference<Goods>() {
             }); //反序列化为Goods
+            goods.setTitle(subHit.getHighlightFields().get("title").getFragments()[0].toString());
             goodList.add(goods);
         }
         searchResponseVO.setProducts(goodList);
@@ -230,6 +249,8 @@ public class SearchServiceImpl implements SearchPmsService {
                         .subAggregation(AggregationBuilders.terms("attrValueAgg").field("attrs.attrValue"))));
 
         System.out.println("searchSourceBuilder.toString() = " + searchSourceBuilder.toString());
+
+        searchSourceBuilder.fetchSource(new String[]{"skuId","pic","title","price"},null);
 
         SearchRequest goods = new SearchRequest("goods");
         goods.types("info");

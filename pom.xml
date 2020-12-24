@@ -45,7 +45,7 @@
         <jjwt-api.version>0.10.7</jjwt-api.version>
         <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
         <oss.version>3.5.0</oss.version>
-        <elasticsearch.version>2.4.0</elasticsearch.version>
+        <elasticsearch.version>2.2.1.RELEASE</elasticsearch.version>
         <amqp.version>2.4.0</amqp.version>
         <hystrix.version>2.2.5.RELEASE</hystrix.version>
         <openfeign.version>2.2.5.RELEASE</openfeign.version>
@@ -213,6 +213,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.2.1.RELEASE</version>
             </plugin>
         </plugins>
     </build>
