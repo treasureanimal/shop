@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: pms-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    virtual-host: /xiaoxiong
+    username: xiaoxiong
+    password: xiaoxiong
+item:
+  rabbitmq:
+    exchange: PMS-EXCHAGE #自定义交换机名称
+seata:
+  config:
+    type: nacos
+    nacos:
+      server-addr: 127.0.0.1:8848
+      group : "SEATA_GROUP"
+      namespace: ""
+      username: "nacos"
+      password: "nacos"
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: 127.0.0.1:8848
+      group : "SEATA_GROUP"
+      namespace: ""
+      username: "nacos"
+      password: "nacos"
+      cluster: "default"
+  tx-service-group: pms-service-group

@@ -1,14 +1,16 @@
 package com.study.gmall.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.study.gmall.search.pojo.Goods;
 import com.study.gmall.search.pojo.SearchParamVO;
 import com.study.gmall.search.pojo.SearchResponseAttrVO;
 import com.study.gmall.search.pojo.SearchResponseVO;
 import com.study.gmall.service.SearchPmsService;
-import lombok.extern.slf4j.Slf4j;
+import io.jsonwebtoken.lang.Collections;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.search.SearchRequest;
@@ -20,10 +22,11 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.bucket.nested.ParsedNested;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.ParsedLongTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.ParsedStringTerms;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -37,9 +40,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
-@Slf4j
 public class SearchServiceImpl implements SearchPmsService {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
@@ -91,6 +94,7 @@ public class SearchServiceImpl implements SearchPmsService {
         category.setValue(categoryValues);
         searchResponseVO.setCatelog(category);
 
+        searchResponseVO.setAttrs(null); //规格参数
         //解析品牌的聚合结果集
         SearchResponseAttrVO brand = new SearchResponseAttrVO();
         brand.setName("品牌");
