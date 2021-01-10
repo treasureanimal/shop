@@ -2,7 +2,10 @@ package com.study.gmall.dao;
 
 import com.study.gmall.pms.entity.CategoryEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.study.gmall.pms.vo.CategoryVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 
@@ -13,5 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface CategoryDao extends BaseMapper<CategoryEntity> {
-	
+
+    List<CategoryVO> querySubCategories(Long pid);
 }

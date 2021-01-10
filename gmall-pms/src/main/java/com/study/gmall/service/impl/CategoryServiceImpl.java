@@ -8,6 +8,7 @@ import com.study.core.bean.Query;
 import com.study.core.bean.QueryCondition;
 import com.study.gmall.dao.CategoryDao;
 import com.study.gmall.pms.entity.CategoryEntity;
+import com.study.gmall.pms.vo.CategoryVO;
 import com.study.gmall.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             wrapper.eq("parent_cid", parentCid);
         }
         return this.categoryDao.selectList(wrapper);
+    }
+
+    @Override
+    public List<CategoryVO> querySubCategories(Long pid) {
+        return categoryDao.querySubCategories(pid);
     }
 
 }
