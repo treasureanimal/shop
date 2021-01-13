@@ -1,5 +1,6 @@
 package com.study.gmall.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
@@ -12,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -83,8 +85,13 @@ public class SkuImagesController {
     @PreAuthorize("hasAuthority('pms:skuimages:delete')")
     public Resp<Object> delete(@RequestBody Long[] ids) {
         skuImagesService.removeByIds(Arrays.asList(ids));
-
         return Resp.ok(null);
+    }
+
+    @GetMapping("{skuId}")
+    public Resp<List<SkuImagesEntity>> querySkuImagesBySkuId(@PathVariable("skuId") Long skuId){
+        List<SkuImagesEntity> skuImageEntities = skuImagesService.list(new QueryWrapper<SkuImagesEntity>().eq("sku_Id", skuId));
+        return Resp.ok(skuImageEntities);
     }
 
 }
