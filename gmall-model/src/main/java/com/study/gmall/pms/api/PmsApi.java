@@ -5,6 +5,7 @@ import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
 import com.study.gmall.pms.entity.*;
 import com.study.gmall.pms.vo.CategoryVO;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,13 @@ public interface PmsApi {
     @GetMapping("pms/skuinfo/{spuId}")
     Resp<List<SkuInfoEntity>> querySkuBySpuId(@PathVariable("spuId")Long spuId);
 
+
+    /**
+     * 信息
+     */
+    @ApiOperation("详情查询")
+    @GetMapping("pms/skuinfo/info/{skuId}")
+    Resp<SkuInfoEntity> querySkuById(@PathVariable("skuId") Long skuId);
     /**
      * 根据品牌id查询品牌
      * @param brandId 品牌id
@@ -55,4 +63,7 @@ public interface PmsApi {
                                                     @RequestParam(value="parentCid", required = false)Long parentCid);
     @GetMapping("pms/category/{pid}")
     Resp<List<CategoryVO>> querySubCategories(@PathVariable("pid") Long pid);
+
+    @GetMapping("pms/skuimages/{skuId}")
+    public Resp<List<SkuImagesEntity>> querySkuImagesBySkuId(@PathVariable("skuId") Long skuId);
 }

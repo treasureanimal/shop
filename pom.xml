@@ -23,6 +23,10 @@
         <module>gmall-gataway</module>
         <module>gmall-search</module>
         <module>gmall-index</module>
+        <module>gmall-item</module>
+        <module>gmall-cart</module>
+        <module>gmall-auth</module>
+        <module>gmall-order</module>
     </modules>
 
     <properties>
