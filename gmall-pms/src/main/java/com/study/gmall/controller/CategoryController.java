@@ -4,6 +4,7 @@ import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
 import com.study.gmall.pms.entity.CategoryEntity;
+import com.study.gmall.pms.vo.CategoryVO;
 import com.study.gmall.service.CategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,13 +36,11 @@ public class CategoryController {
     @PreAuthorize("hasAuthority('pms:category:list')")
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo page = categoryService.queryPage(queryCondition);
-
         return Resp.ok(page);
     }
 
     @ApiOperation("分类查询所有")
     @GetMapping
-    @PreAuthorize("hasAuthority('pms:category:list')")
     public Resp<List<CategoryEntity>> queryCategory(@RequestParam(value="level", defaultValue = "0")Integer level,
                                                     @RequestParam(value="parentCid", required = false)Long parentCid){
         List<CategoryEntity> categoryEntities = categoryService.queryCategory(level, parentCid);
@@ -55,7 +54,6 @@ public class CategoryController {
     @PreAuthorize("hasAuthority('pms:category:info')")
     public Resp<CategoryEntity> info(@PathVariable("catId") Long catId) {
         CategoryEntity category = categoryService.getById(catId);
-
         return Resp.ok(category);
     }
 
@@ -67,7 +65,6 @@ public class CategoryController {
     @PreAuthorize("hasAuthority('pms:category:save')")
     public Resp<Object> save(@RequestBody CategoryEntity category) {
         categoryService.save(category);
-
         return Resp.ok(null);
     }
 
@@ -79,7 +76,6 @@ public class CategoryController {
     @PreAuthorize("hasAuthority('pms:category:update')")
     public Resp<Object> update(@RequestBody CategoryEntity category) {
         categoryService.updateById(category);
-
         return Resp.ok(null);
     }
 
@@ -91,8 +87,13 @@ public class CategoryController {
     @PreAuthorize("hasAuthority('pms:category:delete')")
     public Resp<Object> delete(@RequestBody Long[] catIds) {
         categoryService.removeByIds(Arrays.asList(catIds));
-
         return Resp.ok(null);
+    }
+
+    @GetMapping("{pid}")
+    public Resp<List<CategoryVO>> querySubCategories(@PathVariable("pid") Long pid){
+        List<CategoryVO> categoryVOS = categoryService.querySubCategories(pid);
+        return Resp.ok(categoryVOS);
     }
 
 }

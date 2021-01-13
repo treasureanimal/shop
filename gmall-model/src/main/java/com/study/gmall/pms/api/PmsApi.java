@@ -4,11 +4,9 @@ import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
 import com.study.gmall.pms.entity.*;
+import com.study.gmall.pms.vo.CategoryVO;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,5 +48,11 @@ public interface PmsApi {
     Resp<List<ProductAttrValueEntity>> querySearchAttrValueBySpuId(@PathVariable("spuId") Long spuId);
 
     @GetMapping("pms/spuinfo/info/{id}")
-    public Resp<SpuInfoEntity> querySpuById(@PathVariable("id") Long id);
+    Resp<SpuInfoEntity> querySpuById(@PathVariable("id") Long id);
+
+    @GetMapping("pms/category")
+    Resp<List<CategoryEntity>> queryCategory(@RequestParam(value="level", defaultValue = "0")Integer level,
+                                                    @RequestParam(value="parentCid", required = false)Long parentCid);
+    @GetMapping("pms/category/{pid}")
+    Resp<List<CategoryVO>> querySubCategories(@PathVariable("pid") Long pid);
 }
