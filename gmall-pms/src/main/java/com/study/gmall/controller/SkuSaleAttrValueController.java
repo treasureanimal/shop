@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -86,5 +87,10 @@ public class SkuSaleAttrValueController {
 
         return Resp.ok(null);
     }
+    @GetMapping("{spuId}")
+    public Resp<List<SkuSaleAttrValueEntity>> querySkuSaleAttrValuesBySpuId(@PathVariable("spuId")Long spuId){
 
+        List<SkuSaleAttrValueEntity> saleAttrValueEntities = this.skuSaleAttrValueService.querySkuSaleAttrValuesBySpuId(spuId);
+        return Resp.ok(saleAttrValueEntities);
+    }
 }

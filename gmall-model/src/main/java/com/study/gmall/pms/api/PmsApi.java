@@ -3,6 +3,7 @@ package com.study.gmall.pms.api;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
+import com.study.gmall.item.ItemGroupVO;
 import com.study.gmall.pms.entity.*;
 import com.study.gmall.pms.vo.CategoryVO;
 import io.swagger.annotations.ApiOperation;
@@ -60,10 +61,20 @@ public interface PmsApi {
 
     @GetMapping("pms/category")
     Resp<List<CategoryEntity>> queryCategory(@RequestParam(value="level", defaultValue = "0")Integer level,
-                                                    @RequestParam(value="parentCid", required = false)Long parentCid);
+                                             @RequestParam(value="parentCid", required = false)Long parentCid);
     @GetMapping("pms/category/{pid}")
     Resp<List<CategoryVO>> querySubCategories(@PathVariable("pid") Long pid);
 
     @GetMapping("pms/skuimages/{skuId}")
-    public Resp<List<SkuImagesEntity>> querySkuImagesBySkuId(@PathVariable("skuId") Long skuId);
+    Resp<List<SkuImagesEntity>> querySkuImagesBySkuId(@PathVariable("skuId") Long skuId);
+
+    @GetMapping("pms/skusaleattrvalue/{spuId}")
+    Resp<List<SkuSaleAttrValueEntity>> querySkuSaleAttrValuesBySpuId(@PathVariable("spuId")Long spuId);
+
+    @GetMapping("pms/spuinfodesc/info/{spuId}")
+    Resp<SpuInfoDescEntity> querySpuDescBySpuId(@PathVariable("spuId") Long spuId);
+
+    @GetMapping("pms/attrgroup/item/group/{cid}/{spuId}")
+    Resp<List<ItemGroupVO>> queryItemGroupVOByCidAndSpuId(@PathVariable("cid")Long cid, @PathVariable("spuId")Long spuId);
+
 }

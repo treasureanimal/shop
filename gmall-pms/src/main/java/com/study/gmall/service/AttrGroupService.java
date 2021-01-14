@@ -1,6 +1,7 @@
 package com.study.gmall.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.study.gmall.item.ItemGroupVO;
 import com.study.gmall.pms.entity.AttrGroupEntity;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
@@ -25,5 +26,7 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
     AttrGroupVO queryById(Long gid);
 
     List<AttrGroupVO> queryGroupByCid(Long catId);
+
+    List<ItemGroupVO> queryItemGroupVOByCidAndSpuId(Long cid, Long spuId);
 }
 

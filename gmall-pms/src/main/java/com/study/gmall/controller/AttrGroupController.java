@@ -3,6 +3,7 @@ package com.study.gmall.controller;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
+import com.study.gmall.item.ItemGroupVO;
 import com.study.gmall.pms.entity.AttrGroupEntity;
 import com.study.gmall.pms.vo.AttrGroupVO;
 import com.study.gmall.service.AttrGroupService;
@@ -110,6 +111,13 @@ public class AttrGroupController {
     public Resp<List<AttrGroupVO>> queryGroupByCid(@PathVariable("catId")Long catId){
         List<AttrGroupVO> groupVOS = attrGroupService.queryGroupByCid(catId);
         return Resp.ok(groupVOS);
+    }
+
+    @GetMapping("item/group/{cid}/{spuId}")
+    public Resp<List<ItemGroupVO>> queryItemGroupVOByCidAndSpuId(@PathVariable("cid")Long cid, @PathVariable("spuId")Long spuId){
+
+        List<ItemGroupVO> itemGroupVOS = this.attrGroupService.queryItemGroupVOByCidAndSpuId(cid, spuId);
+        return Resp.ok(itemGroupVOS);
     }
 
 }
