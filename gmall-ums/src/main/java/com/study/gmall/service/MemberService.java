@@ -16,5 +16,11 @@ import com.study.core.bean.QueryCondition;
 public interface MemberService extends IService<MemberEntity> {
 
     PageVo queryPage(QueryCondition params);
+
+    Boolean checkDate(String data, Integer type);
+
+    void register(MemberEntity memberEntity, String code);
+
+    MemberEntity queryUser(String username, String password);
 }
 
