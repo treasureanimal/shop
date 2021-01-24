@@ -91,4 +91,27 @@ public class MemberController {
         return Resp.ok(null);
     }
 
+    /**
+     * 校验数据是否已存在
+     * 1.username 2.mobile 3.emall
+     * @param data 传入的数据
+     * @param type 传入的数据类型
+     * @return 返回是否有值
+     */
+    @GetMapping("check/{data}/{type}")
+    public Resp<Boolean> checkDate(@PathVariable("data") String data, @PathVariable("type") Integer type){
+        Boolean flag = this.memberService.checkDate(data,type);
+        return Resp.ok(flag);
+    }
+
+    @PostMapping("register")
+    public Resp<Object> register(MemberEntity memberEntity,@RequestParam("code") String code){
+        this.memberService.register(memberEntity,code);
+        return Resp.ok(null);
+    }
+    @GetMapping("query")
+    public Resp<MemberEntity> queryUser(@RequestParam("username")String username, @RequestParam("password")String password){
+        MemberEntity memberEntity = this.memberService.queryUser(username, password);
+        return Resp.ok(memberEntity);
+    }
 }

@@ -112,5 +112,10 @@ public class MemberEntity implements Serializable {
 	 */
 	@ApiModelProperty(name = "createTime",value = "注册时间")
 	private Date createTime;
+	/**
+	 * 盐
+	 */
+	@ApiModelProperty(name = "salt",value = "盐")
+	private String salt;
 
 }
