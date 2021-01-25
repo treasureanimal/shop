@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class Cart {
 
-    private Integer skuId;
+    private Long skuId;
     private String title;
     private String defaultImage;
     private BigDecimal price;

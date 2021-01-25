@@ -71,6 +71,9 @@ public interface PmsApi {
     @GetMapping("pms/skusaleattrvalue/{spuId}")
     Resp<List<SkuSaleAttrValueEntity>> querySkuSaleAttrValuesBySpuId(@PathVariable("spuId")Long spuId);
 
+    @GetMapping("pms/skusaleattrvalue/sku/{skuId}")
+    Resp<List<SkuSaleAttrValueEntity>> querySkuSaleAttrValuesBySkuId(@PathVariable("skuId")Long skuId);
+
     @GetMapping("pms/spuinfodesc/info/{spuId}")
     Resp<SpuInfoDescEntity> querySpuDescBySpuId(@PathVariable("spuId") Long spuId);
 

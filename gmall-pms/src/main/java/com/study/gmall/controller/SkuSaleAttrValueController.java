@@ -1,5 +1,7 @@
 package com.study.gmall.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.additional.AbstractChainWrapper;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
@@ -92,5 +94,11 @@ public class SkuSaleAttrValueController {
 
         List<SkuSaleAttrValueEntity> saleAttrValueEntities = this.skuSaleAttrValueService.querySkuSaleAttrValuesBySpuId(spuId);
         return Resp.ok(saleAttrValueEntities);
+    }
+    @GetMapping("sku/{skuId}")
+    public Resp<List<SkuSaleAttrValueEntity>> querySkuSaleAttrValuesBySkuId(@PathVariable("skuId")Long skuId){
+
+        List<SkuSaleAttrValueEntity> skuSaleAttrValueEntities = this.skuSaleAttrValueService.list(new QueryWrapper<SkuSaleAttrValueEntity>().eq("sku_id",skuId));
+        return Resp.ok(skuSaleAttrValueEntities);
     }
 }
