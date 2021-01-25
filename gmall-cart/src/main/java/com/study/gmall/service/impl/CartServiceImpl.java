@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -88,6 +89,48 @@ public class CartServiceImpl implements CartService {
         }
         hashOps.put(skuId, JSON.toJSONString(cart));
         }
+
+    @Override
+    public List<Cart> queryCart() {
+
+        //获取登录状态
+        UserInfo userInfo = LonginInterceptors.getUserInfo();
+
+        //查询未登录的购物车
+        String unLogin = KEY_PREFIX+userInfo.getUserKey();
+        BoundHashOperations<String, Object, Object> unLoginHashops = this.stringRedisTemplate.boundHashOps(unLogin);
+        List<Object> cartList = unLoginHashops.values();
+        List<Cart> unLoginCarts = null;
+        if (!CollectionUtils.isEmpty(cartList)) {
+            unLoginCarts =  cartList.stream().map(cart -> JSON.parseObject(cart.toString(),Cart.class)).collect(Collectors.toList());
+        }
+        //判断是否登录，如果未登录直接返回
+        if (userInfo.getId() == null) {
+            return unLoginCarts;
+        }
+        //登录，购物车同步
+        String loginKey = KEY_PREFIX + userInfo.getId();
+        BoundHashOperations<String, Object, Object> loginHashops = this.stringRedisTemplate.boundHashOps(loginKey);
+
+        if (!CollectionUtils.isEmpty(unLoginCarts)) {
+            unLoginCarts.forEach(cart -> {
+                Integer count = cart.getCount();
+                if (loginHashops.hasKey(cart.getSkuId().toString())) {
+                   String cartJson = loginHashops.get(cart.getSkuId().toString()).toString();
+                    cart = JSON.parseObject(cartJson, Cart.class);
+                    cart.setCount(cart.getCount() + count);
+                }
+                loginHashops.put(cart.getSkuId().toString(),JSON.toJSONString(cart));
+            });
+
+            //同步完之后删除未登录的购物车商品
+            this.stringRedisTemplate.delete(unLogin);
+        }
+
+        //查询登录状态的购物车
+        List<Object> loginCarts = loginHashops.values();
+        return loginCarts.stream().map(cartJson -> JSON.parseObject(cartJson.toString(), Cart.class)).collect(Collectors.toList());
+    }
 
     private String getLongStatus() {
         String key = KEY_PREFIX;
