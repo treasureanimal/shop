@@ -8,4 +8,8 @@ public interface CartService {
     void addCart(Cart cart);
 
     List<Cart> queryCart();
+
+    void updateCart(Cart cart);
+
+    void deleteCart(Long skuId);
 }
