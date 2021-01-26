@@ -24,15 +24,15 @@ public class CartListener {
     private static final String PRICE_PREFIX = "gmall:sku";
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "CART-ITEM-QUEUE",durable = "true"),
-            exchange = @Exchange(value = "PMS-EXCHAGE",ignoreDeclarationExceptions = "true",type = ExchangeTypes.TOPIC),
+            value = @Queue(value = "CART-ITEM-QUEUE", durable = "true"),
+            exchange = @Exchange(value = "PMS-EXCHAGE", ignoreDeclarationExceptions = "true", type = ExchangeTypes.TOPIC),
             key = {"item.update"}
     ))
-    private void lisnter(Long spuId){
+    private void lisnter(Long spuId) {
         Resp<List<SkuInfoEntity>> skuInfoResp = this.pmsClientApi.querySkuBySpuId(spuId);
         List<SkuInfoEntity> skuInfoEntities = skuInfoResp.getData();
         skuInfoEntities.forEach(skuInfoEntity -> {
-    this.stringRedisTemplate.opsForValue().set(PRICE_PREFIX + skuInfoEntity.getSkuId().toString(),skuInfoEntity.getPrice().toString());
+            this.stringRedisTemplate.opsForValue().set(PRICE_PREFIX + skuInfoEntity.getSkuId().toString(), skuInfoEntity.getPrice().toString());
         });
     }
 }
