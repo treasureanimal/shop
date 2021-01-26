@@ -21,6 +21,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class CartServiceImpl implements CartService {
 
     private static final String KEY_PREFIX = "gmall:cart";
+    private static final String PRICE_PREFIX = "gmall:sku";
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -66,7 +68,7 @@ public class CartServiceImpl implements CartService {
             SkuInfoEntity skuInfoEntity = skuInfoEntityResp.getData();
 
             if (skuInfoEntity == null) {
-                return ;
+                return;
             }
             cart.setDefaultImage(skuInfoEntity.getSkuDefaultImg());
             cart.setPrice(skuInfoEntity.getPrice());
@@ -86,9 +88,10 @@ public class CartServiceImpl implements CartService {
             if (!CollectionUtils.isEmpty(wareSkuEntities)) {
                 cart.setStore(wareSkuEntities.stream().anyMatch(wareSkuEntity -> wareSkuEntity.getStock() > 0));
             }
+            this.stringRedisTemplate.opsForValue().set(PRICE_PREFIX + skuId, skuInfoEntity.getPrice().toString());
         }
         hashOps.put(skuId, JSON.toJSONString(cart));
-        }
+    }
 
     @Override
     public List<Cart> queryCart() {
@@ -97,12 +100,18 @@ public class CartServiceImpl implements CartService {
         UserInfo userInfo = LonginInterceptors.getUserInfo();
 
         //查询未登录的购物车
-        String unLogin = KEY_PREFIX+userInfo.getUserKey();
+        String unLogin = KEY_PREFIX + userInfo.getUserKey();
         BoundHashOperations<String, Object, Object> unLoginHashops = this.stringRedisTemplate.boundHashOps(unLogin);
         List<Object> cartList = unLoginHashops.values();
         List<Cart> unLoginCarts = null;
         if (!CollectionUtils.isEmpty(cartList)) {
-            unLoginCarts =  cartList.stream().map(cart -> JSON.parseObject(cart.toString(),Cart.class)).collect(Collectors.toList());
+            unLoginCarts = cartList.stream().map(cart -> {
+                Cart cart1 = JSON.parseObject(cart.toString(), Cart.class);
+                //查询当前价格
+                String priceString = this.stringRedisTemplate.opsForValue().get(PRICE_PREFIX + cart1.getSkuId());
+                cart1.setCurrentPrice(new BigDecimal(priceString));
+                return cart1;
+            }).collect(Collectors.toList());
         }
         //判断是否登录，如果未登录直接返回
         if (userInfo.getId() == null) {
@@ -116,11 +125,11 @@ public class CartServiceImpl implements CartService {
             unLoginCarts.forEach(cart -> {
                 Integer count = cart.getCount();
                 if (loginHashops.hasKey(cart.getSkuId().toString())) {
-                   String cartJson = loginHashops.get(cart.getSkuId().toString()).toString();
+                    String cartJson = loginHashops.get(cart.getSkuId().toString()).toString();
                     cart = JSON.parseObject(cartJson, Cart.class);
                     cart.setCount(cart.getCount() + count);
                 }
-                loginHashops.put(cart.getSkuId().toString(),JSON.toJSONString(cart));
+                loginHashops.put(cart.getSkuId().toString(), JSON.toJSONString(cart));
             });
 
             //同步完之后删除未登录的购物车商品
@@ -129,7 +138,14 @@ public class CartServiceImpl implements CartService {
 
         //查询登录状态的购物车
         List<Object> loginCarts = loginHashops.values();
-        return loginCarts.stream().map(cartJson -> JSON.parseObject(cartJson.toString(), Cart.class)).collect(Collectors.toList());
+        return loginCarts.stream().map(cartJson ->
+        {
+            Cart cart = JSON.parseObject(cartJson.toString(), Cart.class);
+            //查询当前价格
+            String priceString = this.stringRedisTemplate.opsForValue().get(PRICE_PREFIX + cart.getSkuId());
+            cart.setCurrentPrice(new BigDecimal(priceString));
+            return cart;
+        }).collect(Collectors.toList());
     }
 
     private String getLongStatus() {

@@ -4,6 +4,12 @@ spring:
   redis:
     url: 192.168.160.133
     port: 6379
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    virtual-host: /xiaoxiong
+    username: xiaoxiong
+    password: xiaoxiong
 server:
   port: 8090
 #网关获取到token之后请求订单等微服务
