@@ -52,6 +52,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Value("${item.rabbitmq.exchange}")
     private String EXCHANGE_NAME;
+
     @Override
     public PageVo queryPage(QueryCondition params) {
         IPage<SpuInfoEntity> page = this.page(
@@ -87,17 +88,18 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         this.save(spuInfoVO);
         Long spuId = spuInfoVO.getId();
         //1.2.保存pms_spu_info_desc信息
-        spuInfoDescService.saveSpuInfoDesc(spuInfoVO,spuId);
+        spuInfoDescService.saveSpuInfoDesc(spuInfoVO, spuId);
         //1.3.保存pms_product_attr_value信息
-        saveBaseAttrValue(spuInfoVO,spuId);
+        saveBaseAttrValue(spuInfoVO, spuId);
         /*2.保存sku相关的3张表*/
         saveSkuAndSale(spuInfoVO, spuId);
-        sendMsg("insert",spuId);
+        sendMsg("insert", spuId);
     }
 
-    private void sendMsg(String type,Long spuId){
-        amqpTemplate.convertAndSend(EXCHANGE_NAME,"item."+type,spuId);
+    private void sendMsg(String type, Long spuId) {
+        amqpTemplate.convertAndSend(EXCHANGE_NAME, "item." + type, spuId);
     }
+
     private void saveBaseAttrValue(SpuInfoVO spuInfoVO, Long spuId) {
         List<BaseAttrVO> baseAttrs = spuInfoVO.getBaseAttrs();
         if (!CollectionUtils.isEmpty(baseAttrs)) {
@@ -109,7 +111,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }
     }
 
-    private void saveSkuAndSale(SpuInfoVO spuInfoVO, Long spuId){
+    private void saveSkuAndSale(SpuInfoVO spuInfoVO, Long spuId) {
         //2.1.保存pms_sku_info
         List<SkuInfoVO> skus = spuInfoVO.getSkus();
         if (CollectionUtils.isEmpty(skus)) {
@@ -140,14 +142,14 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             }
             //2.3.保存pms_sale_attr_value
             List<SkuSaleAttrValueEntity> saleAttrs = skuInfoVO.getSaleAttrs();
-            if (!CollectionUtils.isEmpty(saleAttrs)){
+            if (!CollectionUtils.isEmpty(saleAttrs)) {
                 //设置skuId
                 saleAttrs.forEach(skuSaleAttrValueEntity -> skuSaleAttrValueEntity.setSkuId(skuId));
                 skuSaleAttrValueService.saveBatch(saleAttrs);
             }
             //3.保存营销信息的3张表
             SkuSaleVO skuSaleVO = new SkuSaleVO();
-            BeanUtils.copyProperties(skuInfoVO,skuSaleVO);
+            BeanUtils.copyProperties(skuInfoVO, skuSaleVO);
             skuSaleVO.setSkuId(skuId);
             gmallSmsClientApi.saveSale(skuSaleVO);
         });
