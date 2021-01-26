@@ -20,6 +20,9 @@ import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -147,6 +150,32 @@ public class CartServiceImpl implements CartService {
             return cart;
         }).collect(Collectors.toList());
     }
+
+    @Override
+    public void updateCart(Cart cart) {
+        String key = this.getLongStatus();
+        //获取购物车
+        BoundHashOperations<String, Object, Object> hashOps = this.stringRedisTemplate.boundHashOps(key);
+        Integer count = cart.getCount();
+
+        //判断更新的这条记录，在购物车中有没有
+        if(hashOps.hasKey(cart.getSkuId().toString())){
+            String cartJson =hashOps.get(cart.getSkuId().toString()).toString();
+            cart = JSON.parseObject(cartJson, Cart.class);
+            cart.setCount(count);
+            hashOps.put(cart.getSkuId().toString(),JSON.toJSONString(cart));
+        }
+    }
+
+    @Override
+    public void deleteCart(Long skuId) {
+        String key = this.getLongStatus();
+        BoundHashOperations<String, Object, Object> hashOps = this.stringRedisTemplate.boundHashOps(key);
+        if (hashOps.hasKey(skuId.toString())) {
+            hashOps.delete(skuId.toString());
+        }
+    }
+
 
     private String getLongStatus() {
         String key = KEY_PREFIX;

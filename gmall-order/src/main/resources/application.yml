@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: cart-service
+  redis:
+    url: 192.168.160.133
+    port: 6379
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    virtual-host: /xiaoxiong
+    username: xiaoxiong
+    password: xiaoxiong
+server:
+  port: 8090
+#网关获取到token之后请求订单等微服务
+gmall:
+  jwt:
+    pubKeyPath: D:\\Program Files\\ideaworkspaces\\glshop\\rsa.pub # 公钥地址
+    cookieName: GMALL_TOKEN
+    userKey: user-key
