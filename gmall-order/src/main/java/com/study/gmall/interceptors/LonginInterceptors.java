@@ -32,13 +32,7 @@ public class LonginInterceptors extends HandlerInterceptorAdapter {
         UserInfo userInfo = new UserInfo();
         //获取cookie中的token信息（token）以及userKey
         String token = CookieUtils.getCookieValue(request, this.jwtProperties.getCookieName());
-        String userKey = CookieUtils.getCookieValue(request, this.jwtProperties.getUserKey());
 
-        //判断有没有userKey，没有制作一个放入cookie中
-        if (StringUtils.isEmpty(userKey)) {
-            userKey = UUID.randomUUID().toString();
-            CookieUtils.setCookie(request,response,this.jwtProperties.getUserKey(),userKey,6*30*24*3600);
-        }
         //判断有没有token
         if (StringUtils.isNotEmpty(token)) {
             //解析token

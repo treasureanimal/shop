@@ -2,7 +2,7 @@ package com.study.gmall.controller;
 
 
 import com.study.core.bean.Resp;
-import com.study.gmall.pojo.Cart;
+import com.study.gmall.cart.pojo.Cart;
 import com.study.gmall.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

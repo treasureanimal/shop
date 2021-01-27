@@ -1,5 +1,6 @@
 package com.study.gmall.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
@@ -12,8 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
-
-
+import java.util.List;
 
 
 /**
@@ -91,4 +91,9 @@ public class MemberReceiveAddressController {
         return Resp.ok(null);
     }
 
+    @GetMapping("{userId}")
+    public Resp<List<MemberReceiveAddressEntity>> queryAddressByUserId(@PathVariable("userId") Long userId){
+        List<MemberReceiveAddressEntity> memberReceiveAddressEntities = this.memberReceiveAddressService.list(new QueryWrapper<MemberReceiveAddressEntity>().eq("member_id", userId));
+        return Resp.ok(memberReceiveAddressEntities);
+    }
 }

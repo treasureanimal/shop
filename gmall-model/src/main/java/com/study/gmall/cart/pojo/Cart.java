@@ -1,4 +1,4 @@
-package com.study.gmall.pojo;
+package com.study.gmall.cart.pojo;
 
 import com.study.gmall.pms.entity.SkuSaleAttrValueEntity;
 import com.study.gmall.sms.vo.SaleVO;
