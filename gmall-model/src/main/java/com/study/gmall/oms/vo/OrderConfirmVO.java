@@ -12,7 +12,7 @@ public class OrderConfirmVO {
 
     private List<OrderItemVO> orderItemVOS; //购物车中商品信息
 
-    private Long bounds;
+    private Integer bounds;
 
     private String orderToken; //唯一标识,防止重复提交
 

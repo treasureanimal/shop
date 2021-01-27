@@ -12,4 +12,6 @@ public interface CartService {
     void updateCart(Cart cart);
 
     void deleteCart(Long skuId);
+
+    List<Cart> queryCheckCartByUserId(Long userId);
 }

@@ -11,7 +11,7 @@ spring:
     username: xiaoxiong
     password: xiaoxiong
 server:
-  port: 8090
+  port: 8092
 #网关获取到token之后请求订单等微服务
 gmall:
   jwt:
