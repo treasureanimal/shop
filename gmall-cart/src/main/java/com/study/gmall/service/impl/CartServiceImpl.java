@@ -172,6 +172,14 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    @Override
+    public List<Cart> queryCheckCartByUserId(Long userId) {
+        BoundHashOperations<String, Object, Object> hashOps = this.stringRedisTemplate.boundHashOps(KEY_PREFIX + userId);
+        List<Object> cartJson = hashOps.values();
+        return cartJson.stream().map(cart ->JSON.parseObject(cart.toString(),Cart.class))
+                .filter(Cart::getCheck).collect(Collectors.toList());
+    }
+
 
     private String getLongStatus() {
         String key = KEY_PREFIX;

@@ -6,6 +6,7 @@ import com.study.gmall.cart.pojo.Cart;
 import com.study.gmall.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.rmi.runtime.Log;
 
 import java.util.List;
 
@@ -35,6 +36,16 @@ public class CartController {
         return Resp.ok(carts);
     }
 
+    /**
+     * 获取购物车中已选中的商品
+     * @param userId
+     * @return
+     */
+    @GetMapping("userId")
+    public Resp<List<Cart>> queryCheckCartByUserId(@PathVariable("userId")Long userId){
+        List<Cart> carts = this.cartService.queryCheckCartByUserId(userId);
+        return Resp.ok(carts);
+    }
     /**
      * 更新购物车
      */
