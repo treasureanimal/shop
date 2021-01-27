@@ -1,6 +1,6 @@
 package com.study.gmall.service;
 
-import com.study.gmall.pojo.Cart;
+import com.study.gmall.cart.pojo.Cart;
 
 import java.util.List;
 
