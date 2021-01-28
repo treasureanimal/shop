@@ -18,9 +18,11 @@ import com.study.gmall.ums.entity.MemberReceiveAddressEntity;
 import com.study.gmall.wms.entity.WareSkuEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -130,7 +132,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void submit(OrderSubmitVO orderSubmitVO) {
 
+        //获取orderToken
+        String orderToken = orderSubmitVO.getOrderToken();
         //1.防重复提交，查询redis中有没有orderToken信息。如果有是第一次提交，放行并删除redis中orderToken.如果没有则不是第一次提交
+        String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+        Long flag = this.redisTemplate.execute(new DefaultRedisScript<>(script), Arrays.asList(TOKEN_PREFIX + orderToken), orderToken);
+        if(flag == 0){
+            throw new OrderException("订单不可重复提交");
+        }
         //2.校验价格总价一致就可以
         //3.校验库存是否充足,并锁定库存，一次性提示所有库存不够的商品信息
         //4.下单(创建订单及订单详情)
