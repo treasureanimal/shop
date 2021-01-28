@@ -9,6 +9,7 @@ import com.study.gmall.feign.*;
 import com.study.gmall.interceptors.LonginInterceptors;
 import com.study.gmall.oms.vo.OrderConfirmVO;
 import com.study.gmall.oms.vo.OrderItemVO;
+import com.study.gmall.oms.vo.OrderSubmitVO;
 import com.study.gmall.pms.entity.SkuInfoEntity;
 import com.study.gmall.pms.entity.SkuSaleAttrValueEntity;
 import com.study.gmall.service.OrderService;
@@ -44,6 +45,7 @@ public class OrderServiceImpl implements OrderService {
     private GmalOmsClientApi omsClientApi;
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
+    private static final String TOKEN_PREFIX = "order:token:";
 
     @Override
     public OrderConfirmVO confirm() {
@@ -117,9 +119,21 @@ public class OrderServiceImpl implements OrderService {
         CompletableFuture<Void> tokenCompletableFuture = CompletableFuture.runAsync(() -> {
             String orderToken = IdWorker.getIdStr();//使用mybatisPlus封装的雪花算法
             orderConfirmVO.setOrderToken(orderToken);
+            this.redisTemplate.opsForValue().set(TOKEN_PREFIX + orderToken,orderToken);
         }, threadPoolExecutor);
 
         CompletableFuture.allOf(addressCompletableFuture,cartCompletableFuture,memberCompletableFuture,tokenCompletableFuture).join();
+
         return orderConfirmVO;
+    }
+
+    @Override
+    public void submit(OrderSubmitVO orderSubmitVO) {
+
+        //1.防重复提交，查询redis中有没有orderToken信息。如果有是第一次提交，放行并删除redis中orderToken.如果没有则不是第一次提交
+        //2.校验价格总价一致就可以
+        //3.校验库存是否充足,并锁定库存，一次性提示所有库存不够的商品信息
+        //4.下单(创建订单及订单详情)
+        //5.删除购物车（发送消息，删除购物车）
     }
 }
