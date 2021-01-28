@@ -22,6 +22,7 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -140,7 +141,26 @@ public class OrderServiceImpl implements OrderService {
         if(flag == 0){
             throw new OrderException("订单不可重复提交");
         }
+
         //2.校验价格总价一致就可以
+        List<OrderItemVO> itemVOS = orderSubmitVO.getItemVOS(); //送货清单
+        BigDecimal totalPrice = orderSubmitVO.getTotalPrice();  //页面总价
+        if (CollectionUtils.isEmpty(itemVOS)) {
+            throw new OrderException("没有购买的商品，请到购物车中勾选商品");
+        }
+        //获取实时总价
+        BigDecimal currentTotalPrice = itemVOS.stream().map(item -> {
+            Resp<SkuInfoEntity> skuInfoEntityResp = this.pmsClientApi.querySkuById(item.getSkuId());
+            SkuInfoEntity skuInfoEntity = skuInfoEntityResp.getData();
+            if (skuInfoEntity != null) {
+                return skuInfoEntity.getPrice().multiply(new BigDecimal(item.getCount()));
+            }
+            return new BigDecimal(0);
+        }).reduce((a, b) -> a.add(b)).get();
+        //判断实时总价是否和页面价格一致
+        if (currentTotalPrice.compareTo(totalPrice) != 0) {
+            throw new OrderException("页面已过期，请刷新页面后重新下单");
+        }
         //3.校验库存是否充足,并锁定库存，一次性提示所有库存不够的商品信息
         //4.下单(创建订单及订单详情)
         //5.删除购物车（发送消息，删除购物车）
