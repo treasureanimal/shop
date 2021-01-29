@@ -1,12 +1,14 @@
 package com.study.gmall.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.study.core.bean.Resp;
 import com.study.core.exception.OrderException;
 import com.study.gmall.cart.pojo.Cart;
 import com.study.gmall.cart.pojo.UserInfo;
 import com.study.gmall.feign.*;
 import com.study.gmall.interceptors.LonginInterceptors;
+import com.study.gmall.oms.entity.OrderEntity;
 import com.study.gmall.oms.vo.OrderConfirmVO;
 import com.study.gmall.oms.vo.OrderItemVO;
 import com.study.gmall.oms.vo.OrderSubmitVO;
@@ -16,6 +18,8 @@ import com.study.gmall.service.OrderService;
 import com.study.gmall.ums.entity.MemberEntity;
 import com.study.gmall.ums.entity.MemberReceiveAddressEntity;
 import com.study.gmall.wms.entity.WareSkuEntity;
+import com.study.gmall.wms.vo.SkuLockVO;
+import org.omg.PortableInterceptor.Interceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -122,10 +126,10 @@ public class OrderServiceImpl implements OrderService {
         CompletableFuture<Void> tokenCompletableFuture = CompletableFuture.runAsync(() -> {
             String orderToken = IdWorker.getIdStr();//使用mybatisPlus封装的雪花算法
             orderConfirmVO.setOrderToken(orderToken);
-            this.redisTemplate.opsForValue().set(TOKEN_PREFIX + orderToken,orderToken);
+            this.redisTemplate.opsForValue().set(TOKEN_PREFIX + orderToken, orderToken);
         }, threadPoolExecutor);
 
-        CompletableFuture.allOf(addressCompletableFuture,cartCompletableFuture,memberCompletableFuture,tokenCompletableFuture).join();
+        CompletableFuture.allOf(addressCompletableFuture, cartCompletableFuture, memberCompletableFuture, tokenCompletableFuture).join();
 
         return orderConfirmVO;
     }
@@ -133,12 +137,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void submit(OrderSubmitVO orderSubmitVO) {
 
+        UserInfo userInfo = LonginInterceptors.getUserInfo();
         //获取orderToken
         String orderToken = orderSubmitVO.getOrderToken();
         //1.防重复提交，查询redis中有没有orderToken信息。如果有是第一次提交，放行并删除redis中orderToken.如果没有则不是第一次提交
         String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-        Long flag = this.redisTemplate.execute(new DefaultRedisScript<>(script), Arrays.asList(TOKEN_PREFIX + orderToken), orderToken);
-        if(flag == 0){
+        //通过DefaultRedisScript中的Long.class指定脚本执行返回结果类型
+        Long flag = this.redisTemplate.execute(new DefaultRedisScript<>(script,Long.class), Arrays.asList(TOKEN_PREFIX + orderToken), orderToken);
+        if (flag == 0) {
             throw new OrderException("订单不可重复提交");
         }
 
@@ -162,7 +168,22 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderException("页面已过期，请刷新页面后重新下单");
         }
         //3.校验库存是否充足,并锁定库存，一次性提示所有库存不够的商品信息
+        List<SkuLockVO> lockVOS = itemVOS.stream().map(orderItemVO -> {
+            SkuLockVO skuLockVO = new SkuLockVO();
+            skuLockVO.setSkuId(orderItemVO.getSkuId());
+            skuLockVO.setCount(orderItemVO.getCount());
+            return skuLockVO;
+        }).collect(Collectors.toList());
+        Resp<Object> wareResp = this.wmsClientApi.checkAndLockStore(lockVOS);
+        //如果code不等于0说明锁库存失败
+        if (wareResp.getCode() != 0) {
+            throw new OrderException(wareResp.getMsg());
+        }
+
         //4.下单(创建订单及订单详情)
+        orderSubmitVO.setUserId(userInfo.getId());
         //5.删除购物车（发送消息，删除购物车）
     }
+
+
 }

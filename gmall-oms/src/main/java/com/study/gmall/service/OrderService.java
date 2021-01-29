@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.study.gmall.oms.entity.OrderEntity;
 import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
+import com.study.gmall.oms.vo.OrderSubmitVO;
 
 
 /**
@@ -16,5 +17,7 @@ import com.study.core.bean.QueryCondition;
 public interface OrderService extends IService<OrderEntity> {
 
     PageVo queryPage(QueryCondition params);
+
+    OrderEntity saveOrder(OrderSubmitVO orderSubmitVO);
 }
 

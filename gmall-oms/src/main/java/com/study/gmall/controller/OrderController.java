@@ -4,6 +4,7 @@ import com.study.core.bean.PageVo;
 import com.study.core.bean.QueryCondition;
 import com.study.core.bean.Resp;
 import com.study.gmall.oms.entity.OrderEntity;
+import com.study.gmall.oms.vo.OrderSubmitVO;
 import com.study.gmall.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -91,4 +92,9 @@ public class OrderController {
         return Resp.ok(null);
     }
 
+    @PostMapping
+    public Resp<OrderEntity> saveOrder(@RequestBody OrderSubmitVO orderSubmitVO){
+        OrderEntity orderEntity = this.orderService.saveOrder(orderSubmitVO);
+        return Resp.ok(orderEntity);
+    }
 }

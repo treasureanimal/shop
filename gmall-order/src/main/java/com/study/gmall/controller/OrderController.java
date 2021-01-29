@@ -1,6 +1,7 @@
 package com.study.gmall.controller;
 
 import com.study.core.bean.Resp;
+import com.study.gmall.oms.entity.OrderEntity;
 import com.study.gmall.oms.vo.OrderConfirmVO;
 import com.study.gmall.oms.vo.OrderSubmitVO;
 import com.study.gmall.service.OrderService;
@@ -25,4 +26,6 @@ public class OrderController {
         this.orderService.submit(orderSubmitVO);
         return Resp.ok(null);
     }
+
+
 }
