@@ -9,6 +9,7 @@ import com.study.gmall.wms.entity.WareSkuEntity;
 import com.study.gmall.wms.vo.SkuLockVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -104,6 +105,9 @@ public class WareSkuController {
     @PostMapping
     public Resp<Object> checkAndLockStore(@RequestBody List<SkuLockVO> skuLockVOS) {
         String msg = this.wareSkuService.checkAndLockStore(skuLockVOS);
-        return Resp.ok(msg);
+        if (StringUtils.isEmpty(msg)) {
+            return Resp.ok(null);
+        }
+        return Resp.fail(msg);
     }
 }

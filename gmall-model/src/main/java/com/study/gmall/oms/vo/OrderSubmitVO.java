@@ -17,4 +17,5 @@ public class OrderSubmitVO {
     private List<OrderItemVO> itemVOS;//商品清单
     private Integer bounds;        //积分
     private BigDecimal totalPrice;  //校验价格
+    private Long userId;
 }
