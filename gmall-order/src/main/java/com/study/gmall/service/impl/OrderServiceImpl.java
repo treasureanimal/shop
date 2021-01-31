@@ -19,7 +19,7 @@ import com.study.gmall.ums.entity.MemberEntity;
 import com.study.gmall.ums.entity.MemberReceiveAddressEntity;
 import com.study.gmall.wms.entity.WareSkuEntity;
 import com.study.gmall.wms.vo.SkuLockVO;
-import org.omg.PortableInterceptor.Interceptor;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -28,7 +28,9 @@ import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
@@ -52,6 +54,8 @@ public class OrderServiceImpl implements OrderService {
     private GmalOmsClientApi omsClientApi;
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
+    @Autowired
+    private AmqpTemplate amqpTemplate;
     private static final String TOKEN_PREFIX = "order:token:";
 
     @Override
@@ -172,6 +176,7 @@ public class OrderServiceImpl implements OrderService {
             SkuLockVO skuLockVO = new SkuLockVO();
             skuLockVO.setSkuId(orderItemVO.getSkuId());
             skuLockVO.setCount(orderItemVO.getCount());
+            skuLockVO.setOrderTOken(orderToken);
             return skuLockVO;
         }).collect(Collectors.toList());
         Resp<Object> wareResp = this.wmsClientApi.checkAndLockStore(lockVOS);
@@ -181,8 +186,22 @@ public class OrderServiceImpl implements OrderService {
         }
 
         //4.下单(创建订单及订单详情)
-        orderSubmitVO.setUserId(userInfo.getId());
+        try {
+            orderSubmitVO.setUserId(userInfo.getId());
+            Resp<OrderEntity> orderEntityResp = this.omsClientApi.saveOrder(orderSubmitVO);
+            OrderEntity orderEntity = orderEntityResp.getData();
+        } catch (Exception e) {
+            e.printStackTrace();
+            //发送消息给库存wms，解锁对应的库存
+            this.amqpTemplate.convertAndSend("GMALL-ORDER-EXCHANGE","stock.unlock",orderToken);
+            throw new OrderException("创建订单失败，请重新下单");
+        }
         //5.删除购物车（发送消息，删除购物车）
+        Map<String,Object> map = new HashMap<>();
+        map.put("userId",userInfo.getId()); //购物车用户id
+        List<Long> skuIds = itemVOS.stream().map(OrderItemVO::getSkuId).collect(Collectors.toList());
+        map.put("skuIds",skuIds);       //购物车下单的商品清单
+        amqpTemplate.convertAndSend("GMALL-ORDER-EXCHANGE","cart.delete",map);
     }
 
 
