@@ -21,6 +21,7 @@ import com.study.gmall.pms.entity.SpuInfoEntity;
 import com.study.gmall.service.OrderService;
 import com.study.gmall.ums.entity.MemberEntity;
 import com.study.gmall.ums.entity.MemberReceiveAddressEntity;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     private OrderItemDao orderItemDao;
     @Autowired
     private GmallPmsClientApi pmsApi;
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
     @Override
     public PageVo queryPage(QueryCondition params) {
@@ -105,7 +108,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
             this.orderItemDao.insert(itemEntity);
         });
-
+        //订单创建之后响应之前发送延时消息，达到定时关单
+this.amqpTemplate.convertAndSend("GMALL-ORDER-EXCHANGE","order.ttl",orderSubmitVO.getOrderToken());
         return null;
     }
 }
