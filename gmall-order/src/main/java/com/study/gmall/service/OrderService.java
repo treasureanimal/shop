@@ -7,7 +7,7 @@ import com.study.gmall.oms.vo.OrderSubmitVO;
 public interface OrderService {
     OrderConfirmVO confirm();
 
-    void submit(OrderSubmitVO orderSubmitVO);
+    OrderEntity submit(OrderSubmitVO orderSubmitVO);
 
 
 }

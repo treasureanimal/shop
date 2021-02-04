@@ -139,7 +139,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void submit(OrderSubmitVO orderSubmitVO) {
+    public OrderEntity submit(OrderSubmitVO orderSubmitVO) {
 
         UserInfo userInfo = LonginInterceptors.getUserInfo();
         //获取orderToken
@@ -186,9 +186,10 @@ public class OrderServiceImpl implements OrderService {
         }
 
         //4.下单(创建订单及订单详情)
+        Resp<OrderEntity> orderEntityResp = null;
         try {
             orderSubmitVO.setUserId(userInfo.getId());
-            Resp<OrderEntity> orderEntityResp = this.omsClientApi.saveOrder(orderSubmitVO);
+            orderEntityResp = this.omsClientApi.saveOrder(orderSubmitVO);
             OrderEntity orderEntity = orderEntityResp.getData();
         } catch (Exception e) {
             e.printStackTrace();
@@ -202,6 +203,11 @@ public class OrderServiceImpl implements OrderService {
         List<Long> skuIds = itemVOS.stream().map(OrderItemVO::getSkuId).collect(Collectors.toList());
         map.put("skuIds",skuIds);       //购物车下单的商品清单
         amqpTemplate.convertAndSend("GMALL-ORDER-EXCHANGE","cart.delete",map);
+
+        if(orderEntityResp != null){
+            return orderEntityResp.getData();
+        }
+        return null;
     }
 
 
