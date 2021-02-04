@@ -24,4 +24,6 @@ public class OrderListener {
 
         }
     }
+
+    public void payOrder(){}
 }
