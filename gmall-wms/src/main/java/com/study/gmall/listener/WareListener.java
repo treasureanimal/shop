@@ -3,6 +3,7 @@ package com.study.gmall.listener;
 import com.alibaba.fastjson.JSON;
 import com.study.gmall.dao.WareSkuDao;
 import com.study.gmall.wms.vo.SkuLockVO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -35,11 +36,14 @@ public class WareListener {
             key = {"stock.unloc"}))
     public void unlockListener(String orderToken) {
         String lockJson = this.redisTemplate.opsForValue().get(KEY_PREFIX + orderToken);
+        if (StringUtils.isEmpty(lockJson)) {
+            return;
+        }
         List<SkuLockVO> skuLockVOS = JSON.parseArray(lockJson, SkuLockVO.class);
         skuLockVOS.forEach(skuLockVO -> {
             this.wareSkuDao.unlockStore(skuLockVO.getWareSkuId(), skuLockVO.getCount());
         });
-
+        this.redisTemplate.delete(KEY_PREFIX + orderToken);
 
     }
 
